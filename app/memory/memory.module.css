@@ -1,0 +1,140 @@
+.body {
+  background-color: #fbfbfd;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  color: #1d1d1f;
+}
+
+/* Start screen */
+.startScreen {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.startImage {
+  border-radius: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+  object-fit: cover;
+}
+
+.startTitle {
+  font-size: 36px;
+  margin-bottom: 30px;
+}
+
+.difficultyContainer {
+  display: flex;
+  gap: 20px;
+}
+
+.btn {
+  padding: 20px 40px;
+  font-size: 22px;
+  font-weight: bold;
+  border: 2px solid #d2d2d7;
+  border-radius: 16px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn:hover {
+  background-color: #f5f5f7;
+  border-color: #0071e3;
+  color: #0071e3;
+  transform: translateY(-3px);
+}
+
+/* Countdown */
+.countdownOverlay {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 2000;
+  justify-content: center;
+  align-items: center;
+  font-size: 150px;
+  font-weight: bold;
+  color: #0071e3;
+}
+
+/* Game screen */
+.gameScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.statusText {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: #1d1d1f;
+}
+
+.gridContainer {
+  display: grid;
+  gap: 20px;
+  margin: 0 auto;
+  background: white;
+  padding: 40px;
+  border-radius: 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+  max-width: 90vw;
+  width: fit-content;
+}
+
+.tile {
+  border-radius: 50%;
+  border: 3px solid #000;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s, box-shadow 0.2s;
+  opacity: 0.5;
+}
+
+.tile:active {
+  transform: scale(0.92);
+}
+
+.tileActive {
+  opacity: 1 !important;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+  transform: scale(1.08);
+  border-color: #fff;
+}
+
+/* Game over */
+.gameOver {
+  margin-top: 30px;
+  animation: fadeIn 0.5s;
+}
+
+.gameOverTitle {
+  color: #ff3b30;
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.finalScore {
+  font-size: 24px;
+  margin-bottom: 25px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

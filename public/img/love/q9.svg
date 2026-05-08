@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 280">
+  <defs>
+    <linearGradient id="q9-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff7ed"/>
+      <stop offset="100%" stop-color="#fff0f3"/>
+    </linearGradient>
+  </defs>
+  <rect width="420" height="280" fill="url(#q9-bg)"/>
+
+  <!-- Soft divider -->
+  <line x1="210" y1="40" x2="210" y2="240" stroke="#fda4af" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.5"/>
+
+  <!-- LEFT SIDE: Group of friends (활발, 여러 명) -->
+  <!-- Background bubble -->
+  <ellipse cx="105" cy="155" rx="82" ry="65" fill="#a78bfa" opacity="0.1"/>
+
+  <!-- Figure 1 (center-left) -->
+  <circle cx="90" cy="112" r="22" fill="#a78bfa" opacity="0.85"/>
+  <ellipse cx="90" cy="158" rx="18" ry="28" fill="#a78bfa" opacity="0.8"/>
+
+  <!-- Figure 2 (left) -->
+  <circle cx="50" cy="118" r="18" fill="#c4b5fd" opacity="0.85"/>
+  <ellipse cx="50" cy="158" rx="16" ry="25" fill="#c4b5fd" opacity="0.8"/>
+
+  <!-- Figure 3 (right of center) -->
+  <circle cx="130" cy="115" r="18" fill="#8b5cf6" opacity="0.85"/>
+  <ellipse cx="130" cy="155" rx="16" ry="25" fill="#8b5cf6" opacity="0.8"/>
+
+  <!-- Figure 4 (far right of left group) -->
+  <circle cx="162" cy="122" r="14" fill="#ddd6fe" opacity="0.8"/>
+  <ellipse cx="162" cy="155" rx="12" ry="20" fill="#ddd6fe" opacity="0.75"/>
+
+  <!-- Speech bubbles above group -->
+  <ellipse cx="72" cy="80" rx="22" ry="14" fill="white" opacity="0.8"/>
+  <path d="M72 94 L65 102 L80 94 Z" fill="white" opacity="0.8"/>
+  <text x="72" y="85" text-anchor="middle" font-size="9" fill="#7c3aed" font-family="sans-serif">하하</text>
+  <ellipse cx="115" cy="74" rx="20" ry="13" fill="white" opacity="0.7"/>
+  <path d="M115 87 L110 95 L122 87 Z" fill="white" opacity="0.7"/>
+  <text x="115" y="79" text-anchor="middle" font-size="9" fill="#7c3aed" font-family="sans-serif">호호</text>
+
+  <!-- Label -->
+  <text x="105" y="205" text-anchor="middle" font-size="11" fill="#7c3aed" opacity="0.8" font-family="sans-serif" font-weight="600">친구들과 자주 어울리기</text>
+
+  <!-- RIGHT SIDE: Just the couple (조용, 둘만) -->
+  <!-- Background bubble -->
+  <ellipse cx="315" cy="155" rx="82" ry="65" fill="#fda4af" opacity="0.12"/>
+
+  <!-- Figure (you) - right -->
+  <circle cx="340" cy="112" r="22" fill="#fecdd3" opacity="0.9"/>
+  <ellipse cx="340" cy="158" rx="18" ry="28" fill="#fecdd3" opacity="0.85"/>
+
+  <!-- Figure (partner) - left -->
+  <circle cx="290" cy="112" r="22" fill="#f43f5e" opacity="0.8"/>
+  <ellipse cx="290" cy="158" rx="18" ry="28" fill="#f43f5e" opacity="0.75"/>
+
+  <!-- Joined hands -->
+  <path d="M308 168 L322 168" stroke="#f43f5e" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- Small heart -->
+  <path d="M315 88 C317 83 323 83 323 88 C323 93 319 96 315 100 C311 96 307 93 307 88 C307 83 313 83 315 88" fill="#f43f5e" opacity="0.7"/>
+
+  <!-- Label -->
+  <text x="315" y="205" text-anchor="middle" font-size="11" fill="#be123c" opacity="0.8" font-family="sans-serif" font-weight="600">둘만의 시간 소중히</text>
+
+  <text x="210" y="252" text-anchor="middle" font-size="13" fill="#9f1239" opacity="0.7" font-family="sans-serif">연인 친구들과 어울리는 건?</text>
+</svg>

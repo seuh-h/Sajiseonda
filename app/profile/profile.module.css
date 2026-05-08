@@ -1,0 +1,221 @@
+.page {
+  min-height: 100vh;
+  background: #f5f5f7;
+  padding: 40px 24px 80px;
+}
+
+.container {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.backBtn {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #6e6e73;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 24px;
+  font-family: inherit;
+}
+
+.backBtn:hover {
+  color: #1d1d1f;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 32px;
+  letter-spacing: -0.5px;
+}
+
+/* ── Tabs ── */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid #d1d1d6;
+  padding-bottom: 0;
+}
+
+.tab {
+  background: none;
+  border: none;
+  font-size: 15px;
+  font-weight: 500;
+  color: #6e6e73;
+  cursor: pointer;
+  padding: 10px 16px;
+  font-family: inherit;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.15s;
+}
+
+.tab:hover {
+  color: #1d1d1f;
+}
+
+.tabActive {
+  color: #1d1d1f;
+  font-weight: 700;
+  border-bottom-color: #1d1d1f;
+}
+
+/* ── Section ── */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Avatar ── */
+.avatarArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #e5e5ea;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.avatarImg {
+  object-fit: cover;
+}
+
+.avatarPlaceholder {
+  font-size: 36px;
+  font-weight: bold;
+  color: #8e8e93;
+}
+
+.avatarOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.avatar:hover .avatarOverlay {
+  opacity: 1;
+}
+
+.avatarHint {
+  font-size: 13px;
+  color: #8e8e93;
+  margin: 0;
+}
+
+.removeBtn {
+  font-size: 13px;
+  color: #ff3b30;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+}
+
+.removeBtn:hover {
+  text-decoration: underline;
+}
+
+/* ── Fields ── */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6e6e73;
+}
+
+.readOnly {
+  font-size: 15px;
+  color: #1d1d1f;
+  padding: 10px 14px;
+  background: #e5e5ea;
+  border-radius: 10px;
+}
+
+.input {
+  font-size: 15px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #d1d1d6;
+  background: white;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.input:focus {
+  border-color: #1d1d1f;
+}
+
+/* ── Messages ── */
+.success {
+  font-size: 14px;
+  color: #34c759;
+  margin: 0;
+}
+
+.error {
+  font-size: 14px;
+  color: #ff3b30;
+  margin: 0;
+}
+
+.securityNote {
+  font-size: 14px;
+  color: #6e6e73;
+  margin: 0;
+}
+
+/* ── Save Button ── */
+.saveBtn {
+  padding: 12px;
+  border-radius: 12px;
+  background: #1d1d1f;
+  color: white;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+  margin-top: 4px;
+}
+
+.saveBtn:hover {
+  background: #3a3a3f;
+}
+
+.saveBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

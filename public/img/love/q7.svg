@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 280">
+  <defs>
+    <linearGradient id="q7-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff0f3"/>
+      <stop offset="100%" stop-color="#fce7f3"/>
+    </linearGradient>
+  </defs>
+  <rect width="420" height="280" fill="url(#q7-bg)"/>
+
+  <!-- Divider lines -->
+  <line x1="210" y1="20" x2="210" y2="260" stroke="#fda4af" stroke-width="1.5" opacity="0.5"/>
+  <line x1="20" y1="140" x2="400" y2="140" stroke="#fda4af" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- TOP LEFT: Ferris wheel (놀이공원) -->
+  <circle cx="105" cy="80" r="38" fill="none" stroke="#f43f5e" stroke-width="3"/>
+  <!-- Spokes -->
+  <line x1="105" y1="42" x2="105" y2="118" stroke="#f43f5e" stroke-width="2" opacity="0.6"/>
+  <line x1="67" y1="80" x2="143" y2="80" stroke="#f43f5e" stroke-width="2" opacity="0.6"/>
+  <line x1="78" y1="53" x2="132" y2="107" stroke="#f43f5e" stroke-width="2" opacity="0.6"/>
+  <line x1="132" y1="53" x2="78" y2="107" stroke="#f43f5e" stroke-width="2" opacity="0.6"/>
+  <!-- Gondolas -->
+  <rect x="95" y="35" width="20" height="16" rx="4" fill="#fbbf24"/>
+  <rect x="133" y="70" width="20" height="16" rx="4" fill="#34d399"/>
+  <rect x="95" y="105" width="20" height="16" rx="4" fill="#a78bfa"/>
+  <rect x="57" y="70" width="20" height="16" rx="4" fill="#fb7185"/>
+  <!-- Stand -->
+  <path d="M90 118 L75 135 M120 118 L135 135" stroke="#f43f5e" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- TOP RIGHT: Coffee cup (카페) -->
+  <!-- Cup -->
+  <path d="M265 65 L278 118 L342 118 L355 65 Z" fill="white" stroke="#fda4af" stroke-width="2"/>
+  <!-- Coffee liquid -->
+  <path d="M275 90 L280 118 L340 118 L345 90 Z" fill="#c2410c" opacity="0.35"/>
+  <!-- Handle -->
+  <path d="M355 78 C372 78 372 105 355 105" stroke="#fda4af" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- Steam -->
+  <path d="M295 58 Q298 48 295 38" stroke="#fda4af" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M310 55 Q313 45 310 35" stroke="#fda4af" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M325 58 Q328 48 325 38" stroke="#fda4af" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- Saucer -->
+  <ellipse cx="310" cy="120" rx="55" ry="8" fill="#fecdd3"/>
+
+  <!-- BOTTOM LEFT: Film/cinema (영화관) -->
+  <!-- Clapperboard -->
+  <rect x="40" y="160" width="130" height="88" rx="6" fill="#1e1b4b" opacity="0.85"/>
+  <rect x="40" y="160" width="130" height="26" rx="6" fill="#312e81" opacity="0.9"/>
+  <!-- Stripes on clapper -->
+  <path d="M55 160 L70 186 L80 186 L65 160 Z" fill="#f43f5e" opacity="0.7"/>
+  <path d="M82 160 L97 186 L107 186 L92 160 Z" fill="#f43f5e" opacity="0.7"/>
+  <path d="M109 160 L124 186 L134 186 L119 160 Z" fill="#f43f5e" opacity="0.7"/>
+  <!-- Screen -->
+  <rect x="52" y="194" width="106" height="48" rx="3" fill="white" opacity="0.12"/>
+  <!-- Play button -->
+  <path d="M95 208 L120 218 L95 228 Z" fill="white" opacity="0.6"/>
+
+  <!-- BOTTOM RIGHT: House/sofa (집) -->
+  <!-- House outline -->
+  <path d="M240 240 L240 180 L315 155 L390 180 L390 240 Z" fill="#fecdd3" stroke="#fda4af" stroke-width="2"/>
+  <path d="M230 185 L315 153 L400 185" fill="none" stroke="#f43f5e" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Window -->
+  <rect x="270" y="193" width="30" height="28" rx="3" fill="#bfdbfe" stroke="#fda4af" stroke-width="1.5"/>
+  <line x1="285" y1="193" x2="285" y2="221" stroke="#fda4af" stroke-width="1"/>
+  <line x1="270" y1="207" x2="300" y2="207" stroke="#fda4af" stroke-width="1"/>
+  <!-- Door -->
+  <rect x="326" y="208" width="28" height="32" rx="3" fill="#fda4af"/>
+  <circle cx="327" cy="224" r="3" fill="#f43f5e"/>
+
+  <!-- Corner labels (tiny) -->
+  <text x="105" y="128" text-anchor="middle" font-size="10" fill="#be123c" font-family="sans-serif" opacity="0.7">놀이공원</text>
+  <text x="310" y="132" text-anchor="middle" font-size="10" fill="#be123c" font-family="sans-serif" opacity="0.7">카페</text>
+  <text x="105" y="258" text-anchor="middle" font-size="10" fill="#be123c" font-family="sans-serif" opacity="0.7">영화관</text>
+  <text x="315" y="258" text-anchor="middle" font-size="10" fill="#be123c" font-family="sans-serif" opacity="0.7">집</text>
+</svg>

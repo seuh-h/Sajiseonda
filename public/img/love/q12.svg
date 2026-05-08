@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 280">
+  <defs>
+    <linearGradient id="q12-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c0a2e"/>
+      <stop offset="60%" stop-color="#3d0038"/>
+      <stop offset="100%" stop-color="#560024"/>
+    </linearGradient>
+    <radialGradient id="q12-glow1" cx="50%" cy="60%" r="50%">
+      <stop offset="0%" stop-color="#f43f5e" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#f43f5e" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="q12-candle" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#fbbf24" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="420" height="280" fill="url(#q12-bg)"/>
+  <ellipse cx="210" cy="168" rx="200" ry="130" fill="url(#q12-glow1)"/>
+
+  <!-- Stars -->
+  <circle cx="42" cy="28" r="1.8" fill="white" opacity="0.9"/>
+  <circle cx="95" cy="15" r="1.5" fill="white" opacity="0.8"/>
+  <circle cx="158" cy="32" r="2" fill="white" opacity="0.85"/>
+  <circle cx="220" cy="18" r="1.5" fill="white" opacity="0.75"/>
+  <circle cx="285" cy="28" r="1.8" fill="white" opacity="0.8"/>
+  <circle cx="340" cy="12" r="1.5" fill="white" opacity="0.75"/>
+  <circle cx="388" cy="35" r="2" fill="white" opacity="0.85"/>
+  <circle cx="70" cy="55" r="1.2" fill="white" opacity="0.6"/>
+  <circle cx="195" cy="50" r="1.5" fill="#fbbf24" opacity="0.75"/>
+  <circle cx="330" cy="48" r="1.2" fill="white" opacity="0.65"/>
+  <circle cx="410" cy="62" r="1.5" fill="white" opacity="0.6"/>
+
+  <!-- 4-point star sparkles -->
+  <path d="M118 40 L120 47 L127 49 L120 51 L118 58 L116 51 L109 49 L116 47 Z" fill="#fbbf24" opacity="0.7"/>
+  <path d="M310 35 L311.5 40 L317 41.5 L311.5 43 L310 48 L308.5 43 L303 41.5 L308.5 40 Z" fill="white" opacity="0.65"/>
+
+  <!-- Crescent moon -->
+  <circle cx="370" cy="52" r="20" fill="#fbbf24" opacity="0.85"/>
+  <circle cx="378" cy="46" r="16" fill="#1c0a2e" opacity="0.95"/>
+
+  <!-- Fairy lights string -->
+  <path d="M30 95 Q80 85 130 95 Q180 105 230 95 Q280 85 330 95 Q380 105 400 98" stroke="#fda4af" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <!-- Light bulbs on string -->
+  <ellipse cx="55" cy="95" rx="6" ry="8" fill="#fbbf24" opacity="0.8"/>
+  <ellipse cx="105" cy="90" rx="6" ry="8" fill="#fb7185" opacity="0.8"/>
+  <ellipse cx="155" cy="97" rx="6" ry="8" fill="#fbbf24" opacity="0.8"/>
+  <ellipse cx="205" cy="93" rx="6" ry="8" fill="#a78bfa" opacity="0.8"/>
+  <ellipse cx="255" cy="90" rx="6" ry="8" fill="#fbbf24" opacity="0.8"/>
+  <ellipse cx="305" cy="97" rx="6" ry="8" fill="#fb7185" opacity="0.8"/>
+  <ellipse cx="355" cy="92" rx="6" ry="8" fill="#fbbf24" opacity="0.8"/>
+  <!-- Glow under lights -->
+  <ellipse cx="55" cy="100" rx="10" ry="6" fill="#fbbf24" opacity="0.2"/>
+  <ellipse cx="205" cy="98" rx="10" ry="6" fill="#a78bfa" opacity="0.15"/>
+
+  <!-- Candle -->
+  <rect x="197" y="165" width="26" height="60" rx="5" fill="#fce7f3"/>
+  <!-- Wax drip -->
+  <ellipse cx="210" cy="225" rx="14" ry="5" fill="#fecdd3"/>
+  <!-- Wick -->
+  <rect x="208" y="158" width="4" height="10" rx="2" fill="#78350f"/>
+  <!-- Flame -->
+  <ellipse cx="210" cy="150" rx="9" ry="14" fill="#fbbf24" opacity="0.9"/>
+  <ellipse cx="210" cy="152" rx="5" ry="9" fill="#fb923c" opacity="0.9"/>
+  <ellipse cx="210" cy="154" rx="3" ry="5" fill="white" opacity="0.7"/>
+  <!-- Candle glow -->
+  <ellipse cx="210" cy="175" rx="45" ry="30" fill="url(#q12-candle)"/>
+
+  <!-- Two wine glasses -->
+  <!-- Left glass -->
+  <path d="M138 155 Q148 185 143 200 L125 200 Q120 185 130 155 Z" fill="white" opacity="0.15" stroke="#fda4af" stroke-width="1.5"/>
+  <ellipse cx="134" cy="155" rx="18" ry="5" fill="none" stroke="#fda4af" stroke-width="1.5"/>
+  <line x1="134" y1="200" x2="134" y2="218" stroke="#fda4af" stroke-width="2"/>
+  <ellipse cx="134" cy="219" rx="12" ry="4" fill="none" stroke="#fda4af" stroke-width="1.5"/>
+  <!-- Wine in left glass -->
+  <path d="M132 175 Q142 185 137 195 L127 195 Q122 185 132 175 Z" fill="#f43f5e" opacity="0.4"/>
+
+  <!-- Right glass -->
+  <path d="M282 155 Q292 185 287 200 L269 200 Q264 185 274 155 Z" fill="white" opacity="0.15" stroke="#fda4af" stroke-width="1.5"/>
+  <ellipse cx="278" cy="155" rx="18" ry="5" fill="none" stroke="#fda4af" stroke-width="1.5"/>
+  <line x1="278" y1="200" x2="278" y2="218" stroke="#fda4af" stroke-width="2"/>
+  <ellipse cx="278" cy="219" rx="12" ry="4" fill="none" stroke="#fda4af" stroke-width="1.5"/>
+  <!-- Wine in right glass -->
+  <path d="M276 175 Q286 185 281 195 L271 195 Q266 185 276 175 Z" fill="#f43f5e" opacity="0.4"/>
+
+  <!-- Rose petals on ground -->
+  <ellipse cx="155" cy="227" rx="8" ry="4" fill="#f43f5e" opacity="0.5" transform="rotate(-20 155 227)"/>
+  <ellipse cx="172" cy="232" rx="7" ry="3.5" fill="#fb7185" opacity="0.45" transform="rotate(10 172 232)"/>
+  <ellipse cx="248" cy="230" rx="8" ry="4" fill="#f43f5e" opacity="0.5" transform="rotate(15 248 230)"/>
+  <ellipse cx="265" cy="225" rx="7" ry="3.5" fill="#fb7185" opacity="0.45" transform="rotate(-10 265 225)"/>
+
+  <text x="210" y="268" text-anchor="middle" font-size="13" fill="#fda4af" opacity="0.8" font-family="sans-serif">어떤 분위기의 데이트가 좋아?</text>
+</svg>

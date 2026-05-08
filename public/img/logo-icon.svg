@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40">
+  <!-- Background -->
+  <rect width="40" height="40" rx="9" fill="#1d1d1f"/>
+
+  <!-- Top-left bubble (unselected) -->
+  <circle cx="13" cy="13" r="6" fill="rgba(255,255,255,0.18)"/>
+
+  <!-- Top-right bubble (unselected) -->
+  <circle cx="27" cy="13" r="6" fill="rgba(255,255,255,0.18)"/>
+
+  <!-- Bottom-left bubble (unselected) -->
+  <circle cx="13" cy="27" r="6" fill="rgba(255,255,255,0.18)"/>
+
+  <!-- Bottom-right bubble (selected) -->
+  <circle cx="27" cy="27" r="6" fill="#4f46e5"/>
+  <circle cx="27" cy="27" r="2.5" fill="white" opacity="0.9"/>
+</svg>

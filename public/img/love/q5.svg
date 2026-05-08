@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 280">
+  <defs>
+    <linearGradient id="q5-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e1035"/>
+      <stop offset="55%" stop-color="#7c2d52"/>
+      <stop offset="100%" stop-color="#c2410c"/>
+    </linearGradient>
+    <linearGradient id="q5-ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e1035"/>
+      <stop offset="100%" stop-color="#0f0820"/>
+    </linearGradient>
+    <radialGradient id="q5-sun" cx="50%" cy="100%" r="60%">
+      <stop offset="0%" stop-color="#fb923c" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#fb923c" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="420" height="280" fill="url(#q5-sky)"/>
+  <!-- Sunset glow at horizon -->
+  <ellipse cx="210" cy="195" rx="260" ry="80" fill="url(#q5-sun)"/>
+  <!-- Ground -->
+  <rect x="0" y="195" width="420" height="85" fill="url(#q5-ground)"/>
+  <!-- Horizon line -->
+  <line x1="0" y1="195" x2="420" y2="195" stroke="#fb923c" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Stars in sky -->
+  <circle cx="55" cy="38" r="1.8" fill="white" opacity="0.85"/>
+  <circle cx="130" cy="22" r="1.5" fill="white" opacity="0.7"/>
+  <circle cx="200" cy="35" r="2" fill="white" opacity="0.8"/>
+  <circle cx="280" cy="18" r="1.5" fill="white" opacity="0.7"/>
+  <circle cx="350" cy="42" r="1.8" fill="white" opacity="0.8"/>
+  <circle cx="390" cy="25" r="1.5" fill="white" opacity="0.65"/>
+  <circle cx="88" cy="65" r="1.2" fill="white" opacity="0.6"/>
+  <circle cx="320" cy="60" r="1.2" fill="white" opacity="0.6"/>
+  <circle cx="168" cy="55" r="1.5" fill="white" opacity="0.65"/>
+  <circle cx="245" cy="68" r="1.2" fill="white" opacity="0.55"/>
+
+  <!-- Moon (crescent) -->
+  <circle cx="370" cy="55" r="18" fill="#fbbf24" opacity="0.85"/>
+  <circle cx="378" cy="50" r="14" fill="#7c2d52" opacity="0.92"/>
+
+  <!-- Two silhouette figures holding hands -->
+  <!-- Left figure -->
+  <circle cx="172" cy="162" r="18" fill="#1e1035"/>
+  <rect x="158" y="180" width="28" height="40" rx="10" fill="#1e1035"/>
+  <!-- Right figure -->
+  <circle cx="248" cy="158" r="20" fill="#1e1035"/>
+  <rect x="234" y="176" width="30" height="44" rx="10" fill="#1e1035"/>
+  <!-- Joined hands -->
+  <path d="M186 200 L234 200" stroke="#1e1035" stroke-width="12" stroke-linecap="round"/>
+  <!-- Hand glow -->
+  <circle cx="210" cy="200" r="7" fill="#fb923c" opacity="0.3"/>
+
+  <!-- Heart above couple -->
+  <path d="M210 128 C213 120 222 120 222 128 C222 136 216 141 210 147 C204 141 198 136 198 128 C198 120 207 120 210 128" fill="#f43f5e" opacity="0.8"/>
+
+  <text x="210" y="268" text-anchor="middle" font-size="13" fill="#fda4af" opacity="0.8" font-family="sans-serif">가장 행복한 순간은?</text>
+</svg>
