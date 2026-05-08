@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 280">
+  <defs>
+    <linearGradient id="q4-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff0f3"/>
+      <stop offset="100%" stop-color="#fce7f3"/>
+    </linearGradient>
+  </defs>
+  <rect width="420" height="280" fill="url(#q4-bg)"/>
+
+  <!-- Left hand (reaching right) -->
+  <!-- Palm -->
+  <ellipse cx="125" cy="155" rx="38" ry="28" fill="#fecdd3" transform="rotate(-15 125 155)"/>
+  <!-- Fingers -->
+  <rect x="138" y="120" width="14" height="38" rx="7" fill="#fecdd3" transform="rotate(-10 145 139)"/>
+  <rect x="153" y="118" width="13" height="36" rx="6.5" fill="#fecdd3" transform="rotate(-5 159 136)"/>
+  <rect x="166" y="120" width="12" height="34" rx="6" fill="#fecdd3" transform="rotate(2 172 137)"/>
+  <rect x="178" y="124" width="11" height="32" rx="5.5" fill="#fecdd3" transform="rotate(8 183 140)"/>
+  <!-- Thumb -->
+  <ellipse cx="115" cy="135" rx="10" ry="18" fill="#fecdd3" transform="rotate(-40 115 135)"/>
+  <!-- Arm -->
+  <rect x="60" y="148" width="70" height="22" rx="11" fill="#fda4af"/>
+
+  <!-- Right hand (reaching left) -->
+  <!-- Palm -->
+  <ellipse cx="295" cy="155" rx="38" ry="28" fill="#fecdd3" transform="rotate(15 295 155)"/>
+  <!-- Fingers -->
+  <rect x="268" y="120" width="14" height="38" rx="7" fill="#fecdd3" transform="rotate(10 275 139)"/>
+  <rect x="254" y="118" width="13" height="36" rx="6.5" fill="#fecdd3" transform="rotate(5 261 136)"/>
+  <rect x="242" y="120" width="12" height="34" rx="6" fill="#fecdd3" transform="rotate(-2 248 137)"/>
+  <rect x="231" y="124" width="11" height="32" rx="5.5" fill="#fecdd3" transform="rotate(-8 237 140)"/>
+  <!-- Thumb -->
+  <ellipse cx="305" cy="135" rx="10" ry="18" fill="#fecdd3" transform="rotate(40 305 135)"/>
+  <!-- Arm -->
+  <rect x="290" y="148" width="70" height="22" rx="11" fill="#fda4af"/>
+
+  <!-- Hearts between hands -->
+  <path d="M210 130 C213 122 222 122 222 130 C222 138 216 143 210 149 C204 143 198 138 198 130 C198 122 207 122 210 130" fill="#f43f5e" opacity="0.85"/>
+  <path d="M188 148 C190 143 196 143 196 148 C196 153 192 156 188 159 C184 156 180 153 180 148 C180 143 186 143 188 148" fill="#fb7185" opacity="0.6"/>
+  <path d="M232 148 C234 143 240 143 240 148 C240 153 236 156 232 159 C228 156 224 153 224 148 C224 143 230 143 232 148" fill="#fb7185" opacity="0.6"/>
+
+  <!-- Soft glow behind hands meeting -->
+  <ellipse cx="210" cy="160" rx="60" ry="30" fill="#f43f5e" opacity="0.08"/>
+
+  <!-- Stars -->
+  <path d="M210 62 L212 70 L220 72 L212 74 L210 82 L208 74 L200 72 L208 70 Z" fill="#fbbf24" opacity="0.7"/>
+  <circle cx="145" cy="78" r="3" fill="#fda4af" opacity="0.7"/>
+  <circle cx="278" cy="72" r="3" fill="#fda4af" opacity="0.7"/>
+
+  <text x="210" y="255" text-anchor="middle" font-size="13" fill="#9f1239" opacity="0.7" font-family="sans-serif">싸운 후, 어떻게 화해하는 게 좋아?</text>
+</svg>

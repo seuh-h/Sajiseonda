@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 280">
+  <defs>
+    <linearGradient id="q6-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0f9ff"/>
+      <stop offset="100%" stop-color="#fce7f3"/>
+    </linearGradient>
+  </defs>
+  <rect width="420" height="280" fill="url(#q6-bg)"/>
+
+  <!-- Phone body -->
+  <rect x="155" y="40" width="110" height="185" rx="18" fill="#1e1b4b"/>
+  <!-- Screen -->
+  <rect x="163" y="55" width="94" height="155" rx="10" fill="#ede9fe"/>
+  <!-- Home indicator -->
+  <rect x="195" y="210" width="30" height="4" rx="2" fill="#6d28d9" opacity="0.5"/>
+  <!-- Camera notch -->
+  <rect x="195" y="47" width="30" height="5" rx="2.5" fill="#312e81" opacity="0.7"/>
+
+  <!-- Chat bubbles on screen -->
+  <!-- Incoming (left side) -->
+  <rect x="168" y="68" width="58" height="24" rx="10" fill="#a78bfa" opacity="0.9"/>
+  <path d="M168 85 L160 92 L175 85 Z" fill="#a78bfa" opacity="0.9"/>
+  <text x="197" y="84" text-anchor="middle" font-size="9" fill="white" font-family="sans-serif">보고 싶어 💜</text>
+
+  <!-- Outgoing (right side) -->
+  <rect x="196" y="102" width="55" height="24" rx="10" fill="#f43f5e" opacity="0.9"/>
+  <path d="M251 119 L259 126 L244 119 Z" fill="#f43f5e" opacity="0.9"/>
+  <text x="224" y="118" text-anchor="middle" font-size="9" fill="white" font-family="sans-serif">나도 ❤️</text>
+
+  <!-- Incoming again -->
+  <rect x="168" y="136" width="62" height="24" rx="10" fill="#a78bfa" opacity="0.9"/>
+  <path d="M168 153 L160 160 L175 153 Z" fill="#a78bfa" opacity="0.9"/>
+  <text x="199" y="152" text-anchor="middle" font-size="9" fill="white" font-family="sans-serif">뭐해? 😊</text>
+
+  <!-- Outgoing -->
+  <rect x="192" y="170" width="60" height="24" rx="10" fill="#f43f5e" opacity="0.9"/>
+  <path d="M252 187 L260 194 L245 187 Z" fill="#f43f5e" opacity="0.9"/>
+  <text x="222" y="186" text-anchor="middle" font-size="9" fill="white" font-family="sans-serif">생각하는 중 🌸</text>
+
+  <!-- Notification dot -->
+  <circle cx="265" cy="55" r="10" fill="#f43f5e"/>
+  <text x="265" y="59" text-anchor="middle" font-size="9" fill="white" font-family="sans-serif" font-weight="bold">3</text>
+
+  <!-- Floating hearts around phone -->
+  <path d="M118 90 C120 85 126 85 126 90 C126 95 122 98 118 102 C114 98 110 95 110 90 C110 85 116 85 118 90" fill="#f43f5e" opacity="0.55"/>
+  <path d="M312 105 C314 100 320 100 320 105 C320 110 316 113 312 117 C308 113 304 110 304 105 C304 100 310 100 312 105" fill="#a78bfa" opacity="0.55"/>
+  <path d="M95 155 C97 151 102 151 102 155 C102 159 98 162 95 165 C92 162 88 159 88 155 C88 151 93 151 95 155" fill="#fb7185" opacity="0.45"/>
+  <path d="M335 145 C337 141 342 141 342 145 C342 149 338 152 335 155 C332 152 328 149 328 145 C328 141 333 141 335 145" fill="#f43f5e" opacity="0.45"/>
+
+  <!-- Stars -->
+  <path d="M355 65 L357 72 L364 74 L357 76 L355 83 L353 76 L346 74 L353 72 Z" fill="#fbbf24" opacity="0.7"/>
+  <circle cx="78" cy="70" r="3" fill="#fda4af" opacity="0.6"/>
+
+  <text x="210" y="255" text-anchor="middle" font-size="13" fill="#9f1239" opacity="0.7" font-family="sans-serif">얼마나 자주 연락하고 싶어?</text>
+</svg>

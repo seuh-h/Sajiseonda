@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 280">
+  <defs>
+    <linearGradient id="q2-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff7ed"/>
+      <stop offset="100%" stop-color="#fff0f3"/>
+    </linearGradient>
+  </defs>
+  <rect width="420" height="280" fill="url(#q2-bg)"/>
+
+  <!-- Gift box (left) -->
+  <rect x="60" y="145" width="90" height="75" rx="6" fill="#f43f5e" opacity="0.9"/>
+  <rect x="55" y="130" width="100" height="22" rx="5" fill="#be123c"/>
+  <!-- Ribbon vertical -->
+  <rect x="99" y="130" width="12" height="90" fill="#fbbf24" opacity="0.9"/>
+  <!-- Ribbon horizontal -->
+  <rect x="55" y="158" width="100" height="10" fill="#fbbf24" opacity="0.9"/>
+  <!-- Bow -->
+  <ellipse cx="105" cy="130" rx="20" ry="10" fill="#fbbf24" transform="rotate(-30 105 130)" opacity="0.9"/>
+  <ellipse cx="105" cy="130" rx="20" ry="10" fill="#fbbf24" transform="rotate(30 105 130)" opacity="0.9"/>
+  <circle cx="105" cy="130" r="7" fill="#f59e0b"/>
+
+  <!-- Cake (center) -->
+  <ellipse cx="210" cy="148" rx="38" ry="12" fill="#fda4af"/>
+  <rect x="172" y="148" width="76" height="55" rx="4" fill="#fecdd3"/>
+  <ellipse cx="210" cy="203" rx="38" ry="10" fill="#fda4af"/>
+  <!-- Candles -->
+  <rect x="196" y="128" width="7" height="22" rx="3" fill="#a78bfa"/>
+  <ellipse cx="199.5" cy="127" rx="4" ry="5" fill="#fbbf24"/>
+  <rect x="214" y="124" width="7" height="26" rx="3" fill="#34d399"/>
+  <ellipse cx="217.5" cy="123" rx="4" ry="5" fill="#fbbf24"/>
+  <!-- Frosting swirl -->
+  <path d="M182 148 Q190 138 198 148 Q206 158 214 148 Q222 138 230 148 Q238 158 246 148" stroke="white" stroke-width="3" fill="none" opacity="0.7" stroke-linecap="round"/>
+
+  <!-- Letter/envelope (right) -->
+  <rect x="265" y="148" width="95" height="70" rx="6" fill="white" stroke="#fda4af" stroke-width="2"/>
+  <!-- Envelope flap -->
+  <path d="M265 148 L312 188 L360 148" stroke="#fda4af" stroke-width="2" fill="none"/>
+  <path d="M265 148 L312 188 L360 148 Z" fill="#fff0f3" opacity="0.6"/>
+  <!-- Heart seal -->
+  <path d="M312 175 C314 171 320 171 320 175 C320 179 316 182 312 185 C308 182 304 179 304 175 C304 171 310 171 312 175" fill="#f43f5e"/>
+
+  <!-- Stars/sparkles -->
+  <path d="M148 105 L150 112 L157 114 L150 116 L148 123 L146 116 L139 114 L146 112 Z" fill="#fbbf24" opacity="0.8"/>
+  <path d="M275 110 L276.5 115 L282 116.5 L276.5 118 L275 123 L273.5 118 L268 116.5 L273.5 115 Z" fill="#f43f5e" opacity="0.6"/>
+  <circle cx="360" cy="108" r="4" fill="#fda4af" opacity="0.7"/>
+  <circle cx="72" cy="120" r="3.5" fill="#fbbf24" opacity="0.65"/>
+
+  <text x="210" y="255" text-anchor="middle" font-size="13" fill="#9f1239" opacity="0.7" font-family="sans-serif">어떤 선물이 더 설레?</text>
+</svg>

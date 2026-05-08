@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 280">
+  <defs>
+    <linearGradient id="q10-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0fdf4"/>
+      <stop offset="100%" stop-color="#fff0f3"/>
+    </linearGradient>
+  </defs>
+  <rect width="420" height="280" fill="url(#q10-bg)"/>
+
+  <!-- Grid lines -->
+  <line x1="210" y1="20" x2="210" y2="260" stroke="#e2e8f0" stroke-width="1.5" opacity="0.6"/>
+  <line x1="20" y1="140" x2="400" y2="140" stroke="#e2e8f0" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- TOP LEFT: Mountain/hiking (등산) -->
+  <!-- Mountain -->
+  <path d="M55 128 L105 65 L155 128 Z" fill="#6b7280" opacity="0.75"/>
+  <path d="M38 128 L88 72 L128 128 Z" fill="#9ca3af" opacity="0.6"/>
+  <!-- Snow -->
+  <path d="M105 65 L93 82 L117 82 Z" fill="white" opacity="0.9"/>
+  <!-- Hiking boots -->
+  <ellipse cx="75" cy="120" rx="16" ry="9" fill="#92400e"/>
+  <rect x="62" y="108" width="13" height="15" rx="3" fill="#78350f"/>
+  <ellipse cx="128" cy="120" rx="16" ry="9" fill="#92400e"/>
+  <rect x="118" y="108" width="13" height="15" rx="3" fill="#78350f"/>
+  <!-- Laces -->
+  <path d="M64 112 L74 112 M65 116 L73 116" stroke="white" stroke-width="1.5" opacity="0.7"/>
+  <text x="97" y="135" text-anchor="middle" font-size="10" fill="#4b5563" font-family="sans-serif" opacity="0.8">등산 / 운동</text>
+
+  <!-- TOP RIGHT: Shopping bag (쇼핑/맛집) -->
+  <!-- Bag -->
+  <rect x="255" y="80" width="80" height="55" rx="6" fill="#fbbf24" opacity="0.85"/>
+  <!-- Handles -->
+  <path d="M272 80 Q272 65 285 65 Q298 65 298 80" stroke="#f59e0b" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <!-- Stripe -->
+  <rect x="255" y="103" width="80" height="10" fill="#f59e0b" opacity="0.5"/>
+  <!-- Store star -->
+  <path d="M295 90 L297 97 L304 99 L297 101 L295 108 L293 101 L286 99 L293 97 Z" fill="white" opacity="0.8"/>
+  <!-- Spoon/fork icon for food -->
+  <path d="M350 72 L350 92 M346 74 C346 74 340 78 346 84" stroke="#f59e0b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <text x="295" y="148" text-anchor="middle" font-size="10" fill="#92400e" font-family="sans-serif" opacity="0.8">맛집 / 쇼핑</text>
+
+  <!-- BOTTOM LEFT: Book (독서/음악) -->
+  <!-- Open book -->
+  <path d="M42 165 L42 225 L105 218 L105 165 Z" fill="white" stroke="#94a3b8" stroke-width="1.5"/>
+  <path d="M168 165 L168 225 L105 218 L105 165 Z" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+  <!-- Spine -->
+  <rect x="102" y="162" width="6" height="65" fill="#64748b" opacity="0.5"/>
+  <!-- Text lines in book -->
+  <line x1="55" y1="185" x2="95" y2="185" stroke="#94a3b8" stroke-width="1.5" opacity="0.5"/>
+  <line x1="55" y1="195" x2="95" y2="195" stroke="#94a3b8" stroke-width="1.5" opacity="0.5"/>
+  <line x1="55" y1="205" x2="88" y2="205" stroke="#94a3b8" stroke-width="1.5" opacity="0.5"/>
+  <line x1="115" y1="185" x2="155" y2="185" stroke="#94a3b8" stroke-width="1.5" opacity="0.5"/>
+  <line x1="115" y1="195" x2="155" y2="195" stroke="#94a3b8" stroke-width="1.5" opacity="0.5"/>
+  <!-- Music note -->
+  <path d="M148 170 L148 158 L158 155 L158 167" stroke="#f43f5e" stroke-width="2" fill="none"/>
+  <circle cx="146" cy="172" r="5" fill="#f43f5e" opacity="0.8"/>
+  <circle cx="156" cy="169" r="5" fill="#f43f5e" opacity="0.8"/>
+  <text x="105" y="242" text-anchor="middle" font-size="10" fill="#475569" font-family="sans-serif" opacity="0.8">독서 / 음악</text>
+
+  <!-- BOTTOM RIGHT: Game controller (게임/드라마) -->
+  <!-- Controller body -->
+  <rect x="248" y="172" width="120" height="65" rx="28" fill="#6d28d9" opacity="0.85"/>
+  <!-- D-pad -->
+  <rect x="263" y="195" width="8" height="22" rx="3" fill="#a78bfa"/>
+  <rect x="256" y="202" width="22" height="8" rx="3" fill="#a78bfa"/>
+  <!-- Buttons -->
+  <circle cx="338" cy="196" r="7" fill="#f43f5e" opacity="0.9"/>
+  <circle cx="352" cy="210" r="7" fill="#fbbf24" opacity="0.9"/>
+  <circle cx="324" cy="210" r="7" fill="#34d399" opacity="0.9"/>
+  <circle cx="338" cy="224" r="7" fill="#60a5fa" opacity="0.9"/>
+  <!-- Grips -->
+  <ellipse cx="258" cy="235" rx="16" ry="12" fill="#5b21b6"/>
+  <ellipse cx="358" cy="235" rx="16" ry="12" fill="#5b21b6"/>
+  <text x="308" y="258" text-anchor="middle" font-size="10" fill="#4c1d95" font-family="sans-serif" opacity="0.8">게임 / 드라마</text>
+</svg>

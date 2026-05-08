@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 560">
+  <defs>
+    <linearGradient id="mbti-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#120228"/>
+      <stop offset="100%" stop-color="#3b0764"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="420" height="560" fill="url(#mbti-bg)"/>
+
+  <!-- Large background blobs -->
+  <ellipse cx="90" cy="160" rx="175" ry="148" fill="#6d28d9" opacity="0.5" transform="rotate(-25 90 160)"/>
+  <ellipse cx="335" cy="205" rx="145" ry="118" fill="#be185d" opacity="0.45" transform="rotate(20 335 205)"/>
+  <ellipse cx="160" cy="405" rx="158" ry="128" fill="#c2410c" opacity="0.38" transform="rotate(-15 160 405)"/>
+  <ellipse cx="365" cy="435" rx="125" ry="98" fill="#7e22ce" opacity="0.5" transform="rotate(30 365 435)"/>
+
+  <!-- Medium accent shapes -->
+  <circle cx="268" cy="105" r="82" fill="#d946ef" opacity="0.42"/>
+  <circle cx="58" cy="372" r="88" fill="#e11d48" opacity="0.38"/>
+  <circle cx="372" cy="312" r="72" fill="#9333ea" opacity="0.44"/>
+  <circle cx="198" cy="524" r="78" fill="#7c3aed" opacity="0.38"/>
+  <circle cx="130" cy="270" r="65" fill="#a21caf" opacity="0.35"/>
+
+  <!-- Small bright circles -->
+  <circle cx="48" cy="118" r="30" fill="#f0abfc" opacity="0.82"/>
+  <circle cx="382" cy="78" r="24" fill="#fde68a" opacity="0.78"/>
+  <circle cx="408" cy="372" r="26" fill="#f9a8d4" opacity="0.72"/>
+  <circle cx="28" cy="502" r="22" fill="#c4b5fd" opacity="0.78"/>
+  <circle cx="212" cy="28" r="20" fill="#fdba74" opacity="0.82"/>
+  <circle cx="310" cy="480" r="18" fill="#f0abfc" opacity="0.7"/>
+
+  <!-- Tiny highlight dots -->
+  <circle cx="152" cy="78" r="7" fill="white" opacity="0.55"/>
+  <circle cx="298" cy="348" r="6" fill="white" opacity="0.48"/>
+  <circle cx="98" cy="462" r="8" fill="white" opacity="0.52"/>
+  <circle cx="348" cy="158" r="5" fill="white" opacity="0.48"/>
+  <circle cx="238" cy="218" r="6" fill="white" opacity="0.42"/>
+</svg>

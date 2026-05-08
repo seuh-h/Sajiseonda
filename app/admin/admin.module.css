@@ -1,0 +1,194 @@
+.page {
+  min-height: 100vh;
+  background: #f5f5f7;
+  padding: 40px 24px 80px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.backBtn {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #6e6e73;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 24px;
+  font-family: inherit;
+}
+
+.backBtn:hover {
+  color: #1d1d1f;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 40px;
+  letter-spacing: -0.5px;
+}
+
+/* ── Section ── */
+.section {
+  margin-bottom: 40px;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.onlineDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #34c759;
+  display: inline-block;
+}
+
+.offlineDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #8e8e93;
+  display: inline-block;
+}
+
+.empty {
+  font-size: 14px;
+  color: #8e8e93;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  text-align: center;
+}
+
+/* ── User Row ── */
+.userRow {
+  background: white;
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.userEmail {
+  font-size: 15px;
+  font-weight: 500;
+  color: #1d1d1f;
+}
+
+.userNickname {
+  font-size: 13px;
+  color: #6e6e73;
+  background: #f2f2f7;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.bannedBadge {
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  background: #ff3b30;
+  padding: 3px 8px;
+  border-radius: 10px;
+}
+
+/* ── Actions ── */
+.userActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.dateInput {
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d1d6;
+  font-family: inherit;
+  outline: none;
+  color: #1d1d1f;
+}
+
+.dateInput:focus {
+  border-color: #1d1d1f;
+}
+
+.tempBanBtn {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid #ff9500;
+  background: white;
+  color: #ff9500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+.tempBanBtn:hover:not(:disabled) {
+  background: #ff9500;
+  color: white;
+}
+
+.tempBanBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.permBanBtn {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: none;
+  background: #ff3b30;
+  color: white;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.permBanBtn:hover {
+  background: #d70015;
+}
+
+.unbanBtn {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid #34c759;
+  background: white;
+  color: #34c759;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+.unbanBtn:hover {
+  background: #34c759;
+  color: white;
+}
