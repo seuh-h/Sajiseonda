@@ -12,6 +12,7 @@ type UserProfile = {
   nickname: string | null
   last_seen: string | null
   banned_until: string | null
+  role: string | null
 }
 
 function isOnline(lastSeen: string | null): boolean {
@@ -46,8 +47,7 @@ export default function AdminPage() {
     const supabase = createClient()
     const { data } = await supabase
       .from('profiles')
-      .select('id, email, nickname, last_seen, banned_until')
-      .eq('role', 'user')
+      .select('id, email, nickname, last_seen, banned_until, role')
       .order('last_seen', { ascending: false, nullsFirst: false })
     setUsers(data ?? [])
     setFetching(false)
@@ -82,6 +82,10 @@ export default function AdminPage() {
         <div className={styles.userInfo}>
           <span className={styles.userEmail}>{u.email ?? '이메일 없음'}</span>
           {u.nickname && <span className={styles.userNickname}>{u.nickname}</span>}
+          {u.role === 'admin'
+            ? <span className={styles.adminBadge}>관리자</span>
+            : <span className={styles.userBadge}>사용자</span>
+          }
           {banned && <span className={styles.bannedBadge}>{getBanLabel(u.banned_until)}</span>}
         </div>
         <div className={styles.userActions}>

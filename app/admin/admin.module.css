@@ -113,6 +113,24 @@
   border-radius: 10px;
 }
 
+.adminBadge {
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  background: #6366f1;
+  padding: 3px 8px;
+  border-radius: 10px;
+}
+
+.userBadge {
+  font-size: 12px;
+  font-weight: 600;
+  color: #86868b;
+  background: #f2f2f7;
+  padding: 3px 8px;
+  border-radius: 10px;
+}
+
 /* ── Actions ── */
 .userActions {
   display: flex;
