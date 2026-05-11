@@ -32,6 +32,15 @@ const CARDS = [
     tag: "연애",
   },
   {
+    categories: ["전체", "연애"] as Category[],
+    href: "/mbti-love",
+    img: "/img/love.svg",
+    alt: "MBTI 궁합 테스트",
+    title: "MBTI 궁합 테스트",
+    desc: "연인의 MBTI와 나는 잘 맞을까?",
+    tag: "연애",
+  },
+  {
     categories: ["전체", "능력"] as Category[],
     href: "/memory",
     img: "/img/memory.svg",

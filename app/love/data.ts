@@ -27,7 +27,7 @@ export const questions: LoveQuestion[] = [
     id: 1,
     dimension: "WC",
     img: "/img/love/q1.svg",
-    text: "연인이 힘들다고 털어놨을 때, 연인이 원하는 반응은?",
+    text: "연인이 힘들다고 털어놨을 때, 연인이 나에게 원하는 반응은?",
     choices: [
       "아무 말 없이 꼭 안아준다",
       '"많이 힘들었겠다"며 공감해준다',
@@ -39,7 +39,7 @@ export const questions: LoveQuestion[] = [
     id: 2,
     dimension: "WC",
     img: "/img/love/q2.svg",
-    text: "기념일에 받고 싶은 선물은?",
+    text: "내가 기념일에 받고 싶은 선물은?",
     choices: [
       "직접 만든 편지나 핸드메이드 선물",
       "내가 좋아하는 것들로 꾸민 이벤트",
@@ -51,7 +51,7 @@ export const questions: LoveQuestion[] = [
     id: 3,
     dimension: "WC",
     img: "/img/love/q3.svg",
-    text: "연인이 감정을 표현하는 방식은?",
+    text: "내가 원하는 연인의 감정 표현 방식은?",
     choices: [
       '자주 "사랑해", "보고 싶어"를 말한다',
       "스킨십으로 마음을 전한다",
@@ -124,7 +124,7 @@ export const questions: LoveQuestion[] = [
     id: 9,
     dimension: "AQ",
     img: "/img/love/q9.svg",
-    text: "연인 친구들과 어울리는 건?",
+    text: "나와 연인 그리고 연인의 친구들과 다같이 어울리는 건?",
     choices: [
       "자주 같이 어울리는 게 좋다",
       "가끔은 같이 노는 것도 좋다",

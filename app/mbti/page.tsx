@@ -104,6 +104,21 @@ export default function MbtiTest() {
     setResultType("");
   };
 
+  const handleShare = async (type: string, title: string) => {
+    const url = window.location.origin + "/mbti";
+    const text = `나의 MBTI는 ${type} - ${title}이에요!\n사지선다에서 테스트해보세요`;
+    if (navigator.share) {
+      try { await navigator.share({ title: "MBTI 테스트", text, url }); } catch {}
+    } else {
+      try {
+        await navigator.clipboard.writeText(`${text}\n${url}`);
+        alert("링크가 복사됐어요!");
+      } catch {
+        prompt("링크를 직접 복사해주세요:", `${text}\n${url}`);
+      }
+    }
+  };
+
   const progress = (currentQ / questions.length) * 100;
   const result = results[resultType];
 
@@ -194,6 +209,9 @@ export default function MbtiTest() {
               </ul>
             </div>
           </div>
+          <button className={styles.shareBtn} onClick={() => handleShare(result.type, result.title)}>
+            결과 공유하기
+          </button>
           <button className={styles.restartBtn} onClick={restart}>
             다시 테스트하기
           </button>

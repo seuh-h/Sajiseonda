@@ -293,6 +293,26 @@
   color: #86868b;
 }
 
+.shareBtn {
+  display: block;
+  margin: 0 auto 12px;
+  padding: 16px 40px;
+  background: #f43f5e;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.shareBtn:hover {
+  background: #e11d48;
+  transform: scale(1.03);
+}
+
 .restartBtn {
   padding: 16px 40px;
   background: #1d1d1f;
