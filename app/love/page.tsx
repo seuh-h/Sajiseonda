@@ -97,6 +97,21 @@ export default function LoveTest() {
     setResultType("");
   };
 
+  const handleShare = async (title: string) => {
+    const url = window.location.origin + "/love";
+    const text = `나의 이상형은 ${title}이에요!\n사지선다에서 테스트해보세요`;
+    if (navigator.share) {
+      try { await navigator.share({ title: "이상형 테스트", text, url }); } catch {}
+    } else {
+      try {
+        await navigator.clipboard.writeText(`${text}\n${url}`);
+        alert("링크가 복사됐어요!");
+      } catch {
+        prompt("링크를 직접 복사해주세요:", `${text}\n${url}`);
+      }
+    }
+  };
+
   const progress = (currentQ / questions.length) * 100;
   const result = results[resultType];
 
@@ -177,6 +192,7 @@ export default function LoveTest() {
             ))}
           </div>
           <div className={styles.resultTip}>💡 {result.tip}</div>
+          <button className={styles.shareBtn} onClick={() => handleShare(result.title)}>결과 공유하기</button>
           <button className={styles.restartBtn} onClick={restart}>다시 테스트하기</button>
           <button className={styles.mainBtn} onClick={() => router.push("/main")}>메인으로 돌아가기</button>
         </div>
