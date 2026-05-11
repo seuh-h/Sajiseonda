@@ -13,6 +13,12 @@ export default function SignupPage() {
   const router = useRouter()
   const { user, loading: authLoading } = useAuth()
   const [step, setStep] = useState<Step>('form')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirm, setConfirm] = useState('')
+  const [otp, setOtp] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (!authLoading && user) {
@@ -21,12 +27,6 @@ export default function SignupPage() {
   }, [user, authLoading, router])
 
   if (authLoading || user) return null
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirm, setConfirm] = useState('')
-  const [otp, setOtp] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
 
   async function handleSignup(e: React.FormEvent) {
     e.preventDefault()

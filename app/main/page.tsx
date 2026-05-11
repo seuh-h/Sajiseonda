@@ -49,6 +49,15 @@ const CARDS = [
     desc: "나의 기억력 한계는 어디까지일까?",
     tag: "능력",
   },
+  {
+    categories: ["전체", "기타"] as Category[],
+    href: "/alba",
+    img: "/img/mbti.svg",
+    alt: "알바생 멘탈 테스트",
+    title: "K-알바생 멘탈 테스트",
+    desc: "당신에게 닥칠 억까 상황 속에서 살아남으세요",
+    tag: "기타",
+  },
 ];
 
 type LikesState = Record<string, { count: number; liked: boolean }>;
