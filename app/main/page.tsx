@@ -112,6 +112,15 @@ const CARDS = [
     desc: "움직이는 표적을 쏴라! 당신의 동체시력과 에임 한계는?",
     tag: "능력",
   },
+  {
+    categories: ["전체", "기타"] as Category[],
+    href: "/mystery",
+    img: "/img/memory.svg",
+    alt: "수평사고 퀴즈",
+    title: "수평사고 퀴즈",
+    desc: "단 하나의 사건, 질문과 추리로 진실을 밝혀내세요",
+    tag: "기타",
+  },
 ];
 
 type LikesState = Record<string, { count: number; liked: boolean }>;
