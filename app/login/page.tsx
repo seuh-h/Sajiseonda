@@ -16,12 +16,13 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    if (!authLoading && user) {
+    if (!authLoading && !loading && user) {
       router.replace('/main')
     }
-  }, [user, authLoading, router])
+  }, [user, authLoading, loading, router])
 
-  if (authLoading || user) return null
+  if (authLoading) return null
+  if (!loading && user) return null
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
