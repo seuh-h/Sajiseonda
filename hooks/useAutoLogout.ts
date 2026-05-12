@@ -3,8 +3,8 @@
 import { useEffect, useRef, useCallback, useState } from 'react'
 import { createClient } from '@/lib/supabase'
 
-const WARNING_DELAY = 30 * 1000   // 30 seconds (test)
-const TOTAL_DELAY = 60 * 1000     // 1 minute (test)
+const WARNING_DELAY = 10 * 60 * 1000  // 10 minutes
+const TOTAL_DELAY = 30 * 60 * 1000   // 30 minutes
 const THROTTLE = 1000
 const STORAGE_KEY = 'lastActivityTime'
 
