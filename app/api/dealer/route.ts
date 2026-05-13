@@ -6,7 +6,7 @@ const GROQ_MODEL_ANSWER = "llama-3.3-70b-versatile";
 
 export async function POST(request: NextRequest) {
   try {
-    const { type, question, answer, solution, mainKeywords, keywordDescriptions, additionalKeywords } =
+    const { type, question, answer, solution, situation, hints, mainKeywords, keywordDescriptions, additionalKeywords } =
       await request.json();
 
     const apiKey = process.env.GROQ_API_KEY;
@@ -19,7 +19,13 @@ export async function POST(request: NextRequest) {
     if (type === "question") {
       prompt = `너는 수평사고 퀴즈의 딜러야. 아래 사건의 진실을 완전히 이해하고, 플레이어의 질문을 엄격하게 판단해서 4가지 중 하나만 출력해.
 
-[사건의 진실]
+[사건 개요 - 플레이어에게 공개된 정보]
+${situation}
+
+[공개된 힌트 - 이 요소들은 모두 사건과 관련 있음]
+${Array.isArray(hints) && hints.length > 0 ? hints.map((h: string, i: number) => `${i + 1}. ${h}`).join("\n") : "없음"}
+
+[사건의 완전한 진실]
 ${solution}
 
 [판단 규칙 - 반드시 이 순서대로 적용]
