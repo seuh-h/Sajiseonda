@@ -2,12 +2,15 @@
 
 import { useState, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
+import { recordSuccess } from "@/lib/levelSystem";
 import styles from "./reaction.module.css";
 
 type GameState = "start" | "waiting" | "ready" | "early" | "result" | "finish";
 
 export default function ReactionTest() {
   const router = useRouter();
+  const { user } = useAuth()
   const [gameState, setGameState] = useState<GameState>("start");
   const [results, setResults] = useState<number[]>([]);
   const [message, setMessage] = useState("반응속도 테스트");
@@ -46,6 +49,7 @@ export default function ReactionTest() {
 
       if (newResults.length >= 5) {
         setGameState("finish");
+        if (user) recordSuccess(user.id, 'reaction')
       } else {
         setGameState("result");
         setMessage(`${reactionTime} ms`);

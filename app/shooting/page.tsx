@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
+import { recordSuccess } from "@/lib/levelSystem";
 import styles from "./shooting.module.css";
 
 type Screen = "start" | "game" | "result";
@@ -24,6 +26,7 @@ const SETTINGS = {
 
 export default function ShootingTest() {
   const router = useRouter();
+  const { user } = useAuth()
   const [screen, setScreen] = useState<Screen>("start");
   const [difficulty, setDifficulty] = useState<Difficulty>("normal");
   const [score, setScore] = useState(0);
@@ -79,7 +82,8 @@ export default function ShootingTest() {
     if (spawnTimerRef.current) window.clearTimeout(spawnTimerRef.current);
     setScreen("result");
     setTargets([]);
-  }, []);
+    if (user) recordSuccess(user.id, 'shooting')
+  }, [user]);
 
   const handleHit = (id: number, e: React.MouseEvent) => {
     e.stopPropagation();

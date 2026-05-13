@@ -2,6 +2,8 @@
 
 import { useRef, useState, useCallback } from "react";
 import Image from "next/image";
+import { useAuth } from "@/hooks/useAuth";
+import { recordSuccess } from "@/lib/levelSystem";
 import styles from "./memory.module.css";
 
 type Screen = "start" | "countdown" | "game";
@@ -19,6 +21,7 @@ const TILE_SIZES: Record<number, number> = { 2: 140, 3: 140, 4: 120, 5: 100 };
 const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 
 export default function MemoryTest() {
+  const { user } = useAuth()
   const [screen, setScreen] = useState<Screen>("start");
   const [countdownText, setCountdownText] = useState("3");
   const [statusText, setStatusText] = useState("준비하세요!");
@@ -63,7 +66,8 @@ export default function MemoryTest() {
     setFinalLevel(levelRef.current);
     setIsGameOver(true);
     isWaiting.current = false;
-  }, []);
+    if (user) recordSuccess(user.id, 'memory')
+  }, [user]);
 
   const nextLevel = useCallback(async () => {
     levelRef.current++;

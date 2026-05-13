@@ -6,13 +6,15 @@ import { createClient } from '@/lib/supabase'
 import { useAuth } from '@/hooks/useAuth'
 import styles from './admin.module.css'
 
+import { getLevelName, getLevelIcon } from '@/lib/levelSystem'
+
 type UserProfile = {
   id: string
   email: string | null
   nickname: string | null
   last_seen: string | null
   banned_until: string | null
-  role: string | null
+  level: number | null
 }
 
 function isOnline(lastSeen: string | null): boolean {
@@ -47,7 +49,7 @@ export default function AdminPage() {
     const supabase = createClient()
     const { data } = await supabase
       .from('profiles')
-      .select('id, email, nickname, last_seen, banned_until, role')
+      .select('id, email, nickname, last_seen, banned_until, level')
       .order('last_seen', { ascending: false, nullsFirst: false })
     setUsers(data ?? [])
     setFetching(false)
@@ -82,9 +84,9 @@ export default function AdminPage() {
         <div className={styles.userInfo}>
           <span className={styles.userEmail}>{u.email ?? '이메일 없음'}</span>
           {u.nickname && <span className={styles.userNickname}>{u.nickname}</span>}
-          {u.role === 'admin'
+          {u.level === 6
             ? <span className={styles.adminBadge}>관리자</span>
-            : <span className={styles.userBadge}>사용자</span>
+            : <span className={styles.userBadge}>{getLevelIcon(u.level ?? 1)} {getLevelName(u.level ?? 1)}</span>
           }
           {banned && <span className={styles.bannedBadge}>{getBanLabel(u.banned_until)}</span>}
         </div>
