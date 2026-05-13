@@ -23,7 +23,7 @@ interface RankingEntry {
   rank: number;
 }
 
-const HINT_INTERVAL_SECONDS = 10 * 60;
+const HINT_INTERVAL_SECONDS = 4 * 60;
 
 function getAnswerStyle(answer: string) {
   if (answer.includes("그럴수도") || answer.includes("그럴 수도")) return styles.qaAnswerMaybe;
@@ -354,7 +354,7 @@ export default function MysteryTest() {
                 </div>
                 <div className={styles.ruleItem}>
                   <span className={styles.ruleIcon}>💡</span>
-                  <span>10분마다 힌트 1개씩 공개됩니다.</span>
+                  <span>4분마다 힌트 1개씩 공개됩니다.</span>
                 </div>
               </div>
 
