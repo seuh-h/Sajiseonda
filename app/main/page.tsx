@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import styles from "./main.module.css";
 import { useAuth } from "@/hooks/useAuth";
+import { getLevelIcon, LEVEL_NAMES, LEVEL_ICONS } from "@/lib/levelSystem";
 import { createClient } from "@/lib/supabase";
 
 type Category = "전체" | "성격" | "연애" | "능력" | "기타";
@@ -128,7 +129,7 @@ type LikesState = Record<string, { count: number; liked: boolean }>;
 export default function MainPage() {
   const [active, setActive] = useState<Category>("전체");
   const [likes, setLikes] = useState<LikesState>({});
-  const { user, isAdmin, avatarUrl, nickname, loading } = useAuth();
+  const { user, level, isAdmin, avatarUrl, nickname, loading } = useAuth();
   const router = useRouter();
 
   const visibleCards = CARDS.filter((c) => c.categories.includes(active));
@@ -216,6 +217,26 @@ export default function MainPage() {
                       <Link href="/admin" className={styles.logoutBtn}>패널</Link>
                     </>
                   )}
+                  <div className={styles.levelWrapper}>
+                    <span className={styles.levelIcon}>{getLevelIcon(level)}</span>
+                    <div className={styles.levelTooltip}>
+                      {Object.entries(LEVEL_NAMES).map(([lv, name]) => {
+                        const lvNum = Number(lv)
+                        return (
+                          <div key={lv} className={`${styles.levelRow} ${lvNum === level ? styles.levelRowActive : ''}`}>
+                            <span className={styles.levelRowIcon}>{LEVEL_ICONS[lvNum]}</span>
+                            <span className={styles.levelRowName}>{name}</span>
+                            {lvNum === level
+                              ? <span className={styles.levelRowCurrent}>현재</span>
+                              : lvNum === 6 && !isAdmin
+                                ? <span className={styles.levelRowLocked}>등업 불가</span>
+                                : null
+                            }
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
                   <Link href="/profile" className={styles.avatarBtn}>
                     {avatarUrl ? (
                       <Image src={avatarUrl} alt="프로필" fill className={styles.avatarBtnImg} />

@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
+import { recordSuccess } from "@/lib/levelSystem";
 import styles from "./aim.module.css";
 
 type Screen = "start" | "game" | "result";
@@ -19,6 +21,7 @@ const shuffleArray = (array: number[]) => {
 
 export default function AimTest() {
   const router = useRouter();
+  const { user } = useAuth()
   const [screen, setScreen] = useState<Screen>("start");
   const [numbers, setNumbers] = useState<number[]>([]);
   const [currentTarget, setCurrentTarget] = useState(1);
@@ -55,6 +58,7 @@ export default function AimTest() {
 
         setFinalTime(totalTime);
         setScreen("result");
+        if (user) recordSuccess(user.id, 'aim')
       } else {
         setCurrentTarget((prev) => prev + 1);
       }

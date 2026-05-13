@@ -2,6 +2,8 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
+import { recordSuccess } from "@/lib/levelSystem";
 import { questions, results } from "./data";
 import styles from "./detective.module.css";
 
@@ -23,6 +25,7 @@ const initAnswers = () => Array<number | null>(questions.length).fill(null);
 
 export default function DetectivePage() {
   const router = useRouter();
+  const { user } = useAuth()
   const [screen, setScreen] = useState<"start" | "test" | "result">("start");
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>(initAnswers());
@@ -38,6 +41,7 @@ export default function DetectivePage() {
     if (qIndex + 1 >= questions.length) {
       setResultType(calculateResult(newAnswers));
       setScreen("result");
+      if (user) recordSuccess(user.id, 'detective')
     } else {
       setCurrentQ(qIndex + 1);
       setSelectedChoice(newAnswers[qIndex + 1] ?? null);

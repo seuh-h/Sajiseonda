@@ -6,7 +6,7 @@ import type { User } from '@supabase/supabase-js'
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null)
-  const [role, setRole] = useState<string | null>(null)
+  const [level, setLevel] = useState<number>(1)
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
   const [nickname, setNickname] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -21,10 +21,10 @@ export function useAuth() {
       if (user) {
         const { data } = await supabase
           .from('profiles')
-          .select('role, avatar_url, nickname')
+          .select('level, avatar_url, nickname')
           .eq('id', user.id)
           .single()
-        setRole(data?.role ?? 'user')
+        setLevel(data?.level ?? 1)
         setAvatarUrl(data?.avatar_url ?? null)
         setNickname(data?.nickname ?? null)
 
@@ -47,5 +47,5 @@ export function useAuth() {
     return () => subscription.unsubscribe()
   }, [])
 
-  return { user, role, avatarUrl, nickname, loading, isAdmin: role === 'admin' }
+  return { user, level, avatarUrl, nickname, loading, isAdmin: level === 6 }
 }
