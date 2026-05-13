@@ -204,7 +204,13 @@ export default function MysteryTest() {
       const res = await fetch("/api/dealer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "question", question: questionInput, solution: currentCase.solution }),
+        body: JSON.stringify({
+          type: "question",
+          question: questionInput,
+          solution: currentCase.solution,
+          situation: currentCase.situation,
+          hints: currentCase.hints,
+        }),
       });
       const data = await res.json();
       setQaHistory((prev) => [...prev, { question: questionInput, answer: data.result || "오류가 발생했습니다." }]);
