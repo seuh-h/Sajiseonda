@@ -151,6 +151,10 @@ export default function MysteryTest() {
     }
   };
 
+  useEffect(() => {
+    fetchRankings();
+  }, [fetchRankings]);
+
   const handleDeleteRanking = async (userId: string) => {
     const supabase = createClient();
     await supabase.from("mystery_records").delete().eq("user_id", userId).eq("case_id", currentCase.id);
@@ -294,40 +298,71 @@ export default function MysteryTest() {
           <button className={styles.startBackBtn} onClick={() => router.push("/main")}>
             ← 메인으로
           </button>
-          <div className={styles.startEmoji}>🔍</div>
-          <h1 className={styles.startTitle}>수평사고 퀴즈</h1>
-          <p className={styles.startDesc}>
-            이번 게임은 추리력과 판단력을 이용하여 주어진 사건의 인과관계를 추리해야 하는 게임이다.<br />
-            가장 적은 시간을 소모하여 추리하는 데 성공하세요.
-          </p>
+          <div className={styles.startLayout}>
+            <div className={styles.startRankingPanel}>
+              <div className={styles.rankingHeader}>
+                <span className={styles.rankingTitle}>🏆 랭킹</span>
+                {isAdmin && rankings.length > 0 && (
+                  <button className={styles.deleteAllBtn} onClick={handleDeleteAllRankings}>전체 삭제</button>
+                )}
+              </div>
+              {rankings.length === 0 ? (
+                <div className={styles.rankingEmpty}>아직 기록이 없습니다</div>
+              ) : (
+                rankings.map((entry) => (
+                  <div
+                    key={entry.user_id}
+                    className={`${styles.rankingRow} ${user && entry.user_id === user.id ? styles.rankingRowMe : ""}`}
+                  >
+                    <div className={`${styles.rankNum} ${entry.rank === 1 ? styles.rankNum1 : entry.rank === 2 ? styles.rankNum2 : entry.rank === 3 ? styles.rankNum3 : ""}`}>
+                      {entry.rank}
+                    </div>
+                    <div className={styles.rankNickname}>{entry.nickname}</div>
+                    <div className={styles.rankTime}>{formatTime(entry.time_seconds)}</div>
+                    {isAdmin && (
+                      <button className={styles.rankDeleteBtn} onClick={() => handleDeleteRanking(entry.user_id)} title="삭제">✕</button>
+                    )}
+                  </div>
+                ))
+              )}
+            </div>
+            <div className={styles.startMain}>
+              <div className={styles.startEmoji}>🔍</div>
+              <h1 className={styles.startTitle}>수평사고 퀴즈</h1>
+              <p className={styles.startDesc}>
+                이번 게임은 추리력과 판단력을 이용하여 주어진 사건의 인과관계를 추리해야 하는 게임이다.<br />
+                가장 적은 시간을 소모하여 추리하는 데 성공하세요.
+              </p>
 
-          <div className={styles.rulesBox}>
-            <h3>게임 규칙</h3>
-            <div className={styles.ruleItem}>
-              <span className={styles.ruleIcon}>⏱️</span>
-              <span>사건이 공개되는 순간 타이머가 시작됩니다.</span>
-            </div>
-            <div className={styles.ruleItem}>
-              <span className={styles.ruleIcon}>❓</span>
-              <span>질문하기: 질문 1개당 <b>+1분</b> 추가. 횟수 제한 없음.</span>
-            </div>
-            <div className={styles.ruleItem}>
-              <span className={styles.ruleIcon}>💬</span>
-              <span>딜러는 <b>네 / 아니오 / 그럴수도 / 중요하지않음</b> 중 하나로만 답합니다.</span>
-            </div>
-            <div className={styles.ruleItem}>
-              <span className={styles.ruleIcon}>✅</span>
-              <span>정답: 오답 시 <b>+5분</b>. 추가 키워드 포함 시 키워드당 <b>-1분</b>.</span>
-            </div>
-            <div className={styles.ruleItem}>
-              <span className={styles.ruleIcon}>💡</span>
-              <span>10분마다 힌트 1개씩 공개됩니다.</span>
+              <div className={styles.rulesBox}>
+                <h3>게임 규칙</h3>
+                <div className={styles.ruleItem}>
+                  <span className={styles.ruleIcon}>⏱️</span>
+                  <span>사건이 공개되는 순간 타이머가 시작됩니다.</span>
+                </div>
+                <div className={styles.ruleItem}>
+                  <span className={styles.ruleIcon}>❓</span>
+                  <span>질문하기: 질문 1개당 <b>+1분</b> 추가. 횟수 제한 없음.</span>
+                </div>
+                <div className={styles.ruleItem}>
+                  <span className={styles.ruleIcon}>💬</span>
+                  <span>딜러는 <b>네 / 아니오 / 그럴수도 / 중요하지않음</b> 중 하나로만 답합니다.</span>
+                </div>
+                <div className={styles.ruleItem}>
+                  <span className={styles.ruleIcon}>✅</span>
+                  <span>정답: 오답 시 <b>+5분</b>. 추가 키워드 포함 시 키워드당 <b>-1분</b>.</span>
+                </div>
+                <div className={styles.ruleItem}>
+                  <span className={styles.ruleIcon}>💡</span>
+                  <span>10분마다 힌트 1개씩 공개됩니다.</span>
+                </div>
+              </div>
+
+              <button className={styles.startBtn} onClick={startGame}>
+                수사 시작
+              </button>
             </div>
           </div>
-
-          <button className={styles.startBtn} onClick={startGame}>
-            수사 시작
-          </button>
         </div>
       )}
 
