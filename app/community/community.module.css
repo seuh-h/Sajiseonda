@@ -1,0 +1,883 @@
+.page {
+  min-height: 100vh;
+  background: #f5f5f7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #1d1d1f;
+}
+
+/* ── Header ── */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 60px;
+}
+
+.backBtn {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #6e6e73;
+  cursor: pointer;
+  padding: 8px 0;
+  font-family: inherit;
+  transition: color 0.15s;
+}
+.backBtn:hover { color: #1d1d1f; }
+
+.headerTitle {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.writeBtn {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 20px;
+  border: none;
+  background: #1d1d1f;
+  color: white;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+.writeBtn:hover { background: #3a3a3f; }
+
+/* ── Main ── */
+.main { padding: 32px 0 80px; }
+
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── Board Tabs ── */
+.boardTabsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.boardTabs {
+  display: flex;
+  gap: 6px;
+}
+
+.boardTab {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 7px 18px;
+  border-radius: 20px;
+  border: 1px solid #d1d1d6;
+  background: transparent;
+  color: #6e6e73;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.boardTab:hover { background: rgba(0,0,0,0.04); color: #1d1d1f; }
+.boardTabActive {
+  background: #1d1d1f;
+  color: white;
+  border-color: #1d1d1f;
+}
+
+/* ── Post List ── */
+.postList {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.postRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-bottom: 1px solid #f2f2f7;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.postRow:last-child { border-bottom: none; }
+.postRow:hover { background: #f9f9fb; }
+.postRowNotice { background: #fffbf0; }
+.postRowNotice:hover { background: #fff5d6; }
+
+.boardBadge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 20px;
+  flex-shrink: 0;
+  letter-spacing: 0.3px;
+}
+.badgeFree { background: #e8f0fe; color: #1a73e8; }
+.badgeNotice { background: #fce8e6; color: #d93025; }
+.badgeReview { background: #e6f4ea; color: #1e8e3e; }
+
+.postMain {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.postTitle {
+  font-size: 15px;
+  font-weight: 500;
+  color: #1d1d1f;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.commentCount {
+  font-size: 13px;
+  color: #1a73e8;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.postMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.postAuthor {
+  font-size: 13px;
+  color: #6e6e73;
+  white-space: nowrap;
+}
+
+.postDate {
+  font-size: 12px;
+  color: #aeaeb2;
+  white-space: nowrap;
+}
+
+.postViews, .postLikes {
+  font-size: 12px;
+  color: #aeaeb2;
+  white-space: nowrap;
+}
+
+/* ── Login Prompt ── */
+.loginPrompt {
+  text-align: center;
+  padding: 80px 0;
+}
+.loginPromptText {
+  font-size: 16px;
+  color: #6e6e73;
+  margin-bottom: 20px;
+}
+.loginPromptBtn {
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 20px;
+  border: none;
+  background: #1d1d1f;
+  color: white;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+.loginPromptBtn:hover { background: #3a3a3f; }
+
+.empty {
+  text-align: center;
+  padding: 60px 0;
+  color: #aeaeb2;
+  font-size: 15px;
+}
+
+/* ── Pagination ── */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 32px;
+}
+.pageDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: #d1d1d6;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s, transform 0.2s;
+}
+.pageDot:hover { background: #86868b; transform: scale(1.2); }
+.pageDotActive { background: #1d1d1f; transform: scale(1.3); }
+
+/* ── Write / Edit Form ── */
+.formPage {
+  min-height: 100vh;
+  background: #f5f5f7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.formContainer {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+.formTitle {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 28px;
+  letter-spacing: -0.5px;
+}
+
+.formCard {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6e6e73;
+  letter-spacing: 0.3px;
+}
+
+.formSelect, .formInput {
+  font-size: 15px;
+  padding: 12px 16px;
+  border: 1px solid #d1d1d6;
+  border-radius: 12px;
+  font-family: inherit;
+  color: #1d1d1f;
+  background: white;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.formSelect:focus, .formInput:focus { border-color: #1d1d1f; }
+
+.formTextarea {
+  font-size: 15px;
+  padding: 14px 16px;
+  border: 1px solid #d1d1d6;
+  border-radius: 12px;
+  font-family: inherit;
+  color: #1d1d1f;
+  background: white;
+  outline: none;
+  resize: vertical;
+  min-height: 280px;
+  line-height: 1.7;
+  transition: border-color 0.15s;
+}
+.formTextarea:focus { border-color: #1d1d1f; }
+
+.formActions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.cancelBtn {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 11px 22px;
+  border-radius: 20px;
+  border: 1px solid #d1d1d6;
+  background: transparent;
+  color: #6e6e73;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.cancelBtn:hover { background: rgba(0,0,0,0.04); }
+
+.submitBtn {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 11px 22px;
+  border-radius: 20px;
+  border: none;
+  background: #1d1d1f;
+  color: white;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+.submitBtn:hover { background: #3a3a3f; }
+.submitBtn:disabled { background: #aeaeb2; cursor: not-allowed; }
+
+/* ── Post Detail ── */
+.detailPage {
+  min-height: 100vh;
+  background: #f5f5f7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.detailContainer {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+.detailCard {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  margin-bottom: 16px;
+}
+
+.detailBadgeRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.detailBadge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.detailTitle {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+
+.detailMetaRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f2f2f7;
+  flex-wrap: wrap;
+}
+
+.detailAuthor {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1d1d1f;
+}
+
+.detailDate, .detailViews {
+  font-size: 13px;
+  color: #aeaeb2;
+}
+
+.detailContent {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #1d1d1f;
+  padding: 24px 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  border-bottom: 1px solid #f2f2f7;
+}
+
+.detailActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 18px;
+}
+
+.likeBtn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 20px;
+  border-radius: 20px;
+  border: 1px solid #d1d1d6;
+  background: white;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6e6e73;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.likeBtn:hover { background: #fff0f3; border-color: #f43f5e; color: #f43f5e; }
+.likeBtnActive { background: #fff0f3; border-color: #f43f5e; color: #f43f5e; }
+
+.postBtns {
+  display: flex;
+  gap: 8px;
+}
+
+.editBtn {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: 1px solid #d1d1d6;
+  background: transparent;
+  color: #6e6e73;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.editBtn:hover { background: rgba(0,0,0,0.04); }
+
+.deleteBtn {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: 1px solid #fecdd3;
+  background: transparent;
+  color: #f43f5e;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.deleteBtn:hover { background: #fff0f3; }
+
+/* ── Comments ── */
+.commentsSection {
+  background: white;
+  border-radius: 20px;
+  padding: 28px 32px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.commentsTitle {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #1d1d1f;
+}
+
+.commentList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 24px;
+}
+
+.commentItem {
+  padding: 16px 0;
+  border-bottom: 1px solid #f2f2f7;
+}
+.commentItem:last-child { border-bottom: none; }
+
+.commentHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.commentAuthor {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1d1d1f;
+}
+
+.commentDate {
+  font-size: 12px;
+  color: #aeaeb2;
+}
+
+.commentRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.commentDeleteBtn {
+  font-size: 12px;
+  color: #aeaeb2;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: all 0.15s;
+}
+.commentDeleteBtn:hover { color: #f43f5e; background: #fff0f3; }
+
+.commentContent {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #3a3a3f;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.commentEmpty {
+  text-align: center;
+  padding: 24px 0;
+  color: #aeaeb2;
+  font-size: 14px;
+}
+
+.commentInputRow {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.commentInput {
+  flex: 1;
+  font-size: 14px;
+  padding: 12px 16px;
+  border: 1px solid #d1d1d6;
+  border-radius: 14px;
+  font-family: inherit;
+  color: #1d1d1f;
+  background: #f9f9fb;
+  outline: none;
+  resize: none;
+  min-height: 48px;
+  max-height: 120px;
+  line-height: 1.5;
+  transition: border-color 0.15s, background 0.15s;
+}
+.commentInput:focus { border-color: #1d1d1f; background: white; }
+
+.commentSubmitBtn {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 14px;
+  border: none;
+  background: #1d1d1f;
+  color: white;
+  cursor: pointer;
+  font-family: inherit;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.commentSubmitBtn:hover { background: #3a3a3f; }
+.commentSubmitBtn:disabled { background: #aeaeb2; cursor: not-allowed; }
+
+.commentLoginNote {
+  text-align: center;
+  font-size: 13px;
+  color: #aeaeb2;
+  padding: 12px 0;
+}
+
+/* ── Review category filter (community list) ── */
+.reviewCategoryRow {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.reviewCategoryBtn {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1px solid #d1d1d6;
+  background: transparent;
+  color: #6e6e73;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+.reviewCategoryBtn:hover {
+  background: rgba(0, 0, 0, 0.04);
+  color: #1d1d1f;
+}
+
+.reviewCategoryBtnActive {
+  background: #1e8e3e;
+  color: white;
+  border-color: #1e8e3e;
+}
+
+/* ── Test selector (후기 write/edit) ── */
+.testBtnGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.testCategoryBtn {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 18px;
+  border-radius: 20px;
+  border: 1px solid #d1d1d6;
+  background: transparent;
+  color: #6e6e73;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+.testCategoryBtn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #1d1d1f;
+}
+
+.testCategoryBtnActive {
+  background: #1d1d1f;
+  color: white;
+  border-color: #1d1d1f;
+}
+
+.testNameBtn {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 16px;
+  border-radius: 20px;
+  border: 1px solid #d1d1d6;
+  background: transparent;
+  color: #6e6e73;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+.testNameBtn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #1d1d1f;
+}
+
+.testNameBtnActive {
+  background: #1e8e3e;
+  color: white;
+  border-color: #1e8e3e;
+}
+
+/* test name tag — list & detail */
+.testNameTag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 20px;
+  background: #e6f4ea;
+  color: #1e8e3e;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Image Upload (write/edit forms) ── */
+.imageUploadArea {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.imagePreviewItem {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+}
+
+.imagePreview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #d1d1d6;
+  display: block;
+}
+
+.imageRemoveBtn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+  transition: background 0.15s;
+}
+.imageRemoveBtn:hover { background: rgba(244,63,94,0.9); }
+
+.imageAddBtn {
+  width: 120px;
+  height: 120px;
+  border: 2px dashed #d1d1d6;
+  border-radius: 10px;
+  background: #f9f9fb;
+  color: #6e6e73;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 13px;
+  font-family: inherit;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.imageAddBtn:hover { border-color: #1d1d1f; color: #1d1d1f; background: #f2f2f7; }
+.imageAddBtn span:first-child { font-size: 26px; line-height: 1; }
+
+/* ── Password fields ── */
+.passwordRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.formInputError { border-color: #f43f5e !important; }
+
+.fieldError {
+  font-size: 12px;
+  color: #f43f5e;
+}
+
+.fieldNote {
+  font-size: 11px;
+  font-weight: 400;
+  color: #aeaeb2;
+  margin-left: 4px;
+}
+
+/* ── Password Modal (detail page overlay) ── */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 24px;
+}
+
+/* Centered modal wrapper for edit page (non-overlay, page-level) */
+.modalCentered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+}
+
+.modalBox {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+.modalTitle {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #1d1d1f;
+}
+
+.modalDesc {
+  font-size: 14px;
+  color: #6e6e73;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.modalInput {
+  width: 100%;
+  font-size: 15px;
+  padding: 12px 16px;
+  border: 1px solid #d1d1d6;
+  border-radius: 12px;
+  font-family: inherit;
+  color: #1d1d1f;
+  background: white;
+  outline: none;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+}
+.modalInput:focus { border-color: #1d1d1f; }
+.modalInputError { border-color: #f43f5e !important; }
+
+.modalErrorText {
+  display: block;
+  font-size: 12px;
+  color: #f43f5e;
+  margin-top: 6px;
+}
+
+.modalActions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+/* ── Detail Images ── */
+.detailImages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 16px 0;
+}
+
+.detailImageLink {
+  display: block;
+  width: 160px;
+  height: 160px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid #e5e5ea;
+}
+
+.detailImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s;
+  display: block;
+}
+.detailImageLink:hover .detailImage { transform: scale(1.04); }

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const GEMINI_MODEL_QUESTION = "gemini-2.5-flash";
+const GEMINI_MODEL_QUESTION = "gemini-2.5-flash-lite";
 const GEMINI_MODEL_ANSWER = "gemini-2.5-flash";
 
 function geminiUrl(model: string, apiKey: string) {

@@ -263,6 +263,15 @@
   color: rgba(255,255,255,0.85);
 }
 
+.situationTip {
+  margin-top: 12px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.6;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 10px;
+}
+
 /* ── Controls Panel ── */
 .controlsPanel {
   display: flex;
@@ -689,8 +698,26 @@
 .rankNum2 { background: #c0c0c0; color: #1d1d1f; }
 .rankNum3 { background: #cd7f32; color: white; }
 
+.rankLevelIcon { font-size: 16px; line-height: 1; flex-shrink: 0; }
 .rankNickname { flex: 1; font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.85); }
+.rankClearCount { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.07); padding: 2px 8px; border-radius: 20px; flex-shrink: 0; }
 .rankTime { font-size: 14px; font-weight: bold; color: #01ff95; font-variant-numeric: tabular-nums; }
+
+.myLatestRecord {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-top: 1px dashed rgba(255,255,255,0.15);
+  background: rgba(124,58,237,0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(124,58,237,0.25);
+}
+.myLatestRank { font-size: 13px; font-weight: 700; color: #a78bfa; flex-shrink: 0; min-width: 28px; }
+.myLatestLabel { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.35); letter-spacing: 1px; flex-shrink: 0; }
+.myLatestNickname { flex: 1; font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.85); }
+.myLatestTime { font-size: 14px; font-weight: bold; color: #01ff95; font-variant-numeric: tabular-nums; flex-shrink: 0; }
 
 .rankDeleteBtn {
   background: none;
