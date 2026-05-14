@@ -12,7 +12,7 @@ type Tab = '내 프로필' | '보안 설정'
 
 export default function ProfilePage() {
   const router = useRouter()
-  const { user, level, loading } = useAuth()
+  const { user, level, loading, isAdmin } = useAuth()
   const [tab, setTab] = useState<Tab>('내 프로필')
   const [successCount, setSuccessCount] = useState<number>(0)
 
@@ -202,17 +202,19 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            <div className={styles.field}>
-              <label className={styles.label}>게임 성공 횟수</label>
-              <div className={styles.readOnly}>
-                {successCount}회
-                {level < 5 && (
-                  <span style={{ marginLeft: '8px', fontSize: '13px', color: '#888' }}>
-                    (다음 레벨까지 {Math.max(0, (getNextLevelThreshold(level) ?? 0) - successCount)}회 남음)
-                  </span>
-                )}
+            {!isAdmin && (
+              <div className={styles.field}>
+                <label className={styles.label}>게임 성공 횟수</label>
+                <div className={styles.readOnly}>
+                  {successCount}회
+                  {level < 5 && (
+                    <span style={{ marginLeft: '8px', fontSize: '13px', color: '#888' }}>
+                      (다음 레벨까지 {Math.max(0, (getNextLevelThreshold(level) ?? 0) - successCount)}회 남음)
+                    </span>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
 
             <div className={styles.field}>
               <label className={styles.label}>별명</label>

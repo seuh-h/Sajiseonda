@@ -7,6 +7,7 @@ import styles from "./mystery.module.css";
 import { CASES } from "./data";
 import { useAuth } from "@/hooks/useAuth";
 import { createClient } from "@/lib/supabase";
+import { getLevelIcon, recordSuccess } from "@/lib/levelSystem";
 
 type Screen = "start" | "game" | "result";
 type ActivePanel = "none" | "question" | "answer";
@@ -21,6 +22,7 @@ interface RankingEntry {
   nickname: string;
   time_seconds: number;
   rank: number;
+  level: number;
 }
 
 const HINT_INTERVAL_SECONDS = 4 * 60;
@@ -35,7 +37,7 @@ function getAnswerStyle(answer: string) {
 
 export default function MysteryTest() {
   const router = useRouter();
-  const { user, isAdmin, nickname } = useAuth();
+  const { user, isAdmin, nickname, level } = useAuth();
   const currentCase = CASES[0];
 
   const [screen, setScreen] = useState<Screen>("start");
@@ -54,6 +56,7 @@ export default function MysteryTest() {
   const [rankingsLoading, setRankingsLoading] = useState(false);
   const [imageZoomed, setImageZoomed] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [alreadyCleared, setAlreadyCleared] = useState(false);
 
   const elapsedRef = useRef(0);
   const isRunningRef = useRef(false);
@@ -106,18 +109,24 @@ export default function MysteryTest() {
 
   const fetchRankings = useCallback(async () => {
     const supabase = createClient();
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("mystery_records")
-      .select("user_id, nickname, time_seconds")
+      .select("user_id, nickname, time_seconds, level")
       .eq("case_id", currentCase.id)
       .order("time_seconds", { ascending: true });
 
+    if (error) {
+      console.error("[mystery_records fetch error]", error);
+    }
     if (!data) return;
 
-    const bestPerUser = new Map<string, { user_id: string; nickname: string; time_seconds: number }>();
+    const bestPerUser = new Map<string, { user_id: string; nickname: string; time_seconds: number; level: number }>();
     data.forEach((r) => {
-      if (!bestPerUser.has(r.user_id) || r.time_seconds < bestPerUser.get(r.user_id)!.time_seconds) {
-        bestPerUser.set(r.user_id, r);
+      const existing = bestPerUser.get(r.user_id);
+      if (!existing) {
+        bestPerUser.set(r.user_id, { user_id: r.user_id, nickname: r.nickname, time_seconds: r.time_seconds, level: r.level ?? 1 });
+      } else if (r.time_seconds < existing.time_seconds) {
+        bestPerUser.set(r.user_id, { ...existing, time_seconds: r.time_seconds, level: r.level ?? 1 });
       }
     });
 
@@ -130,6 +139,8 @@ export default function MysteryTest() {
     if (user) {
       const myIdx = ranked.findIndex((r) => r.user_id === user.id);
       setUserRank(myIdx >= 0 ? myIdx + 1 : null);
+      const hasRecord = data.some((r) => r.user_id === user.id);
+      setAlreadyCleared(hasRecord);
     }
   }, [currentCase.id, user]);
 
@@ -137,13 +148,19 @@ export default function MysteryTest() {
     setRankingsLoading(true);
     try {
       const supabase = createClient();
-      if (user) {
-        await supabase.from("mystery_records").insert({
+      if (user && !alreadyCleared) {
+        if (!isAdmin) await recordSuccess(user.id, "mystery");
+        const { error } = await supabase.from("mystery_records").insert({
           user_id: user.id,
           case_id: currentCase.id,
           nickname: nickname || user.email?.split("@")[0] || "익명",
           time_seconds: timeSeconds,
+          level,
         });
+        if (error) {
+          console.error("[mystery_records insert error]", error);
+          alert(`랭킹 저장 실패: ${error.message}\n(코드: ${error.code})`);
+        }
       }
       await fetchRankings();
     } finally {
@@ -170,6 +187,12 @@ export default function MysteryTest() {
   };
 
   const startGame = () => {
+    if (alreadyCleared) {
+      const confirmed = window.confirm(
+        "이미 성공하셨습니다.\n이번 게임은 랭킹에 기록되지 않습니다.\n그래도 게임에 참여하시겠습니까?"
+      );
+      if (!confirmed) return;
+    }
     elapsedRef.current = 0;
     isRunningRef.current = false;
     setElapsedSeconds(0);
@@ -242,7 +265,10 @@ export default function MysteryTest() {
 
       let result: { keywords: { name: string; found: boolean; wrongContext: boolean }[] };
       try {
-        result = JSON.parse(data.result.replace(/```json|```/g, "").trim());
+        const cleaned = data.result.replace(/```json|```/g, "").trim();
+        const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
+        if (!jsonMatch) throw new Error("no json");
+        result = JSON.parse(jsonMatch[0]);
       } catch {
         setFeedback({ type: "penalty", msg: "판정 오류가 발생했습니다. 다시 시도해주세요." });
         setIsLoading(false);
@@ -275,7 +301,9 @@ export default function MysteryTest() {
       } else {
         addSeconds(300);
         let msg = "";
-        if (hasWrongContext) {
+        if (missingCount === 0 && hasWrongContext) {
+          msg = "키워드가 모두 들어갔지만 정답이 아닙니다. +5분이 추가되었습니다.";
+        } else if (hasWrongContext) {
           msg = "오답입니다! 키워드의 주체나 맥락이 틀렸습니다. +5분이 추가되었습니다.";
         } else if (missingCount > 0) {
           msg = `키워드가 ${missingCount}개 부족합니다. +5분이 추가되었습니다.`;
@@ -323,6 +351,7 @@ export default function MysteryTest() {
                     <div className={`${styles.rankNum} ${entry.rank === 1 ? styles.rankNum1 : entry.rank === 2 ? styles.rankNum2 : entry.rank === 3 ? styles.rankNum3 : ""}`}>
                       {entry.rank}
                     </div>
+                    <span className={styles.rankLevelIcon}>{getLevelIcon(entry.level)}</span>
                     <div className={styles.rankNickname}>{entry.nickname}</div>
                     <div className={styles.rankTime}>{formatTime(entry.time_seconds)}</div>
                     {isAdmin && (
@@ -401,6 +430,7 @@ export default function MysteryTest() {
               <div className={styles.situationBox}>
                 <div className={styles.situationLabel}>CASE {currentCase.id}</div>
                 <p className={styles.situationText}>{currentCase.situation}</p>
+                <p className={styles.situationTip}>💡 그림을 보고 내용을 유추한 후 사건의 전말을 하나씩 상상하여 맥락을 이해하고 분석하여 정답을 작성하시오.</p>
               </div>
             </div>
 
@@ -612,6 +642,7 @@ export default function MysteryTest() {
                   <div className={`${styles.rankNum} ${entry.rank === 1 ? styles.rankNum1 : entry.rank === 2 ? styles.rankNum2 : entry.rank === 3 ? styles.rankNum3 : ""}`}>
                     {entry.rank}
                   </div>
+                  <span className={styles.rankLevelIcon}>{getLevelIcon(entry.level)}</span>
                   <div className={styles.rankNickname}>{entry.nickname}</div>
                   <div className={styles.rankTime}>{formatTime(entry.time_seconds)}</div>
                   {isAdmin && (
@@ -622,6 +653,18 @@ export default function MysteryTest() {
                 </div>
               ))
             )}
+            {user && (() => {
+              const currentRunRank = rankings.filter(r => r.time_seconds < finalSeconds).length + 1;
+              return (
+                <div className={styles.myLatestRecord}>
+                  <span className={styles.myLatestRank}>{currentRunRank}위</span>
+                  <span className={styles.rankLevelIcon}>{getLevelIcon(level)}</span>
+                  <span className={styles.myLatestNickname}>{nickname || user.email?.split("@")[0]}</span>
+                  <span className={styles.myLatestLabel}>이번 기록</span>
+                  <span className={styles.myLatestTime}>{formatTime(finalSeconds)}</span>
+                </div>
+              );
+            })()}
           </div>
 
           <button className={styles.restartBtn} onClick={startGame}>다시 도전하기</button>
