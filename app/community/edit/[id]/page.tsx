@@ -28,7 +28,7 @@ function findCategory(name: string): TestCategory | "" {
 }
 
 function getStoragePath(url: string): string {
-  const marker = "/post-images/";
+  const marker = "/post-image/";
   const idx = url.indexOf(marker);
   return idx >= 0 ? url.slice(idx + marker.length) : "";
 }
@@ -160,7 +160,7 @@ export default function EditPostPage() {
     const removedUrls = originalImagesRef.current.filter((url) => !existingImages.includes(url));
     for (const url of removedUrls) {
       const path = getStoragePath(url);
-      if (path) await supabase.storage.from("post-images").remove([path]);
+      if (path) await supabase.storage.from("post-image").remove([path]);
     }
 
     // Upload new images
@@ -169,9 +169,9 @@ export default function EditPostPage() {
       const file = newImages[i];
       const ext = file.name.split(".").pop() ?? "jpg";
       const path = `${user.id}/${Date.now()}_${i}.${ext}`;
-      const { error } = await supabase.storage.from("post-images").upload(path, file);
+      const { error } = await supabase.storage.from("post-image").upload(path, file);
       if (!error) {
-        const { data: urlData } = supabase.storage.from("post-images").getPublicUrl(path);
+        const { data: urlData } = supabase.storage.from("post-image").getPublicUrl(path);
         newUrls.push(urlData.publicUrl);
       }
     }

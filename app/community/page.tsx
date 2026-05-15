@@ -56,6 +56,7 @@ export default function CommunityPage() {
   const { user, loading } = useAuth();
   const [activeBoard, setActiveBoard] = useState<BoardType>("전체");
   const [reviewCategory, setReviewCategory] = useState<ReviewCategory>("전체");
+  const [pinnedNotices, setPinnedNotices] = useState<Post[]>([]);
   const [posts, setPosts] = useState<Post[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
@@ -72,43 +73,63 @@ export default function CommunityPage() {
     const supabase = createClient();
 
     type RawPost = { id: string; board_type: string; title: string; nickname: string; level: number; view_count: number; created_at: string; test_name: string | null };
-    let allPosts: RawPost[] = [];
+    let noticeRaw: RawPost[] = [];
+    let mainPosts: RawPost[] = [];
     let total = 0;
 
-    if (activeBoard === "전체") {
-      const [{ data: noticeData }, { data: otherData, count }] = await Promise.all([
-        supabase.from("posts")
+    if (activeBoard === "공지") {
+      // Show all notices in the main list, no pinning needed
+      const { data, count } = await supabase
+        .from("posts")
+        .select("id, board_type, title, nickname, level, view_count, created_at, test_name", { count: "exact" })
+        .eq("board_type", "공지")
+        .order("created_at", { ascending: false })
+        .range(currentPage * POSTS_PER_PAGE, (currentPage + 1) * POSTS_PER_PAGE - 1);
+      total = count ?? 0;
+      mainPosts = data ?? [];
+    } else {
+      // Fetch top 3 notices for pinning + main posts in parallel
+      let mainQ = supabase
+        .from("posts")
+        .select("id, board_type, title, nickname, level, view_count, created_at, test_name", { count: "exact" })
+        .order("created_at", { ascending: false })
+        .range(currentPage * POSTS_PER_PAGE, (currentPage + 1) * POSTS_PER_PAGE - 1);
+
+      if (activeBoard === "전체") {
+        mainQ = mainQ.neq("board_type", "공지");
+      } else {
+        mainQ = mainQ.eq("board_type", activeBoard);
+        if (activeBoard === "후기" && reviewCategory !== "전체") {
+          mainQ = mainQ.in("test_name", TESTS_BY_CATEGORY[reviewCategory]);
+        }
+      }
+
+      const [{ data: noticeData }, { data: mainData, count }] = await Promise.all([
+        supabase
+          .from("posts")
           .select("id, board_type, title, nickname, level, view_count, created_at, test_name")
           .eq("board_type", "공지")
           .order("created_at", { ascending: false })
           .limit(3),
-        supabase.from("posts")
-          .select("id, board_type, title, nickname, level, view_count, created_at, test_name", { count: "exact" })
-          .neq("board_type", "공지")
-          .order("created_at", { ascending: false })
-          .range(currentPage * POSTS_PER_PAGE, (currentPage + 1) * POSTS_PER_PAGE - 1),
+        mainQ,
       ]);
+
+      noticeRaw = noticeData ?? [];
+      mainPosts = mainData ?? [];
       total = count ?? 0;
-      allPosts = [...(noticeData ?? []), ...(otherData ?? [])];
-    } else {
-      let q = supabase
-        .from("posts")
-        .select("id, board_type, title, nickname, level, view_count, created_at, test_name", { count: "exact" })
-        .eq("board_type", activeBoard)
-        .order("created_at", { ascending: false })
-        .range(currentPage * POSTS_PER_PAGE, (currentPage + 1) * POSTS_PER_PAGE - 1);
-      if (activeBoard === "후기" && reviewCategory !== "전체") {
-        q = q.in("test_name", TESTS_BY_CATEGORY[reviewCategory]);
-      }
-      const { data, count } = await q;
-      total = count ?? 0;
-      allPosts = data ?? [];
     }
 
     setTotalCount(total);
-    if (allPosts.length === 0) { setPosts([]); setPostsLoading(false); return; }
 
-    const postIds = allPosts.map((p) => p.id);
+    const allRaw = [...noticeRaw, ...mainPosts];
+    if (allRaw.length === 0) {
+      setPinnedNotices([]);
+      setPosts([]);
+      setPostsLoading(false);
+      return;
+    }
+
+    const postIds = allRaw.map((p) => p.id);
     const [{ data: commentRows }, { data: likeRows }] = await Promise.all([
       supabase.from("comments").select("post_id").in("post_id", postIds),
       supabase.from("post_likes").select("post_id").in("post_id", postIds),
@@ -119,7 +140,10 @@ export default function CommunityPage() {
     commentRows?.forEach((c) => { commentMap[c.post_id] = (commentMap[c.post_id] ?? 0) + 1; });
     likeRows?.forEach((l) => { likeMap[l.post_id] = (likeMap[l.post_id] ?? 0) + 1; });
 
-    setPosts(allPosts.map((p) => ({ ...p, comment_count: commentMap[p.id] ?? 0, like_count: likeMap[p.id] ?? 0 })));
+    const mapPost = (p: RawPost) => ({ ...p, comment_count: commentMap[p.id] ?? 0, like_count: likeMap[p.id] ?? 0 });
+
+    setPinnedNotices(noticeRaw.map(mapPost));
+    setPosts(mainPosts.map(mapPost));
     setPostsLoading(false);
   }, [activeBoard, currentPage, reviewCategory]);
 
@@ -195,11 +219,40 @@ export default function CommunityPage() {
             </div>
           ) : postsLoading ? (
             <div className={styles.empty}>불러오는 중...</div>
-          ) : posts.length === 0 ? (
+          ) : posts.length === 0 && pinnedNotices.length === 0 ? (
             <div className={styles.empty}>게시글이 없습니다.</div>
           ) : (
             <>
               <div className={styles.postList}>
+                {/* Pinned notices — shown on all boards except 공지 */}
+                {activeBoard !== "공지" && pinnedNotices.map((post) => (
+                  <div key={`pinned-${post.id}`} className={`${styles.postRow} ${styles.postRowNotice}`} onClick={() => handlePostClick(post.id)}>
+                    <span className={`${styles.boardBadge} ${styles.badgeNotice}`}>
+                      공지
+                    </span>
+                    <div className={styles.postMain}>
+                      <span className={styles.postTitle}>{post.title}</span>
+                      {post.comment_count > 0 && (
+                        <span className={styles.commentCount}>[{post.comment_count}]</span>
+                      )}
+                    </div>
+                    <div className={styles.postMeta}>
+                      <span className={styles.postAuthor}>
+                        {getLevelIcon(post.level)} {post.nickname}
+                      </span>
+                      <span className={styles.postDate}>{formatDate(post.created_at)}</span>
+                      <span className={styles.postViews}>👁 {post.view_count}</span>
+                      <span className={styles.postLikes}>♥ {post.like_count}</span>
+                    </div>
+                  </div>
+                ))}
+
+                {/* Divider between pinned and regular posts */}
+                {activeBoard !== "공지" && pinnedNotices.length > 0 && posts.length > 0 && (
+                  <div className={styles.pinnedDivider} />
+                )}
+
+                {/* Regular posts */}
                 {posts.map((post) => (
                   <div key={post.id} className={`${styles.postRow} ${post.board_type === "공지" ? styles.postRowNotice : ""}`} onClick={() => handlePostClick(post.id)}>
                     <span className={`${styles.boardBadge} ${getBadgeClass(post.board_type, styles)}`}>

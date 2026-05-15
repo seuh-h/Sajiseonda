@@ -89,11 +89,15 @@ export default function WritePage() {
       const file = images[i];
       const ext = file.name.split(".").pop() ?? "jpg";
       const path = `${user.id}/${Date.now()}_${i}.${ext}`;
-      const { error } = await supabase.storage.from("post-images").upload(path, file);
-      if (!error) {
-        const { data: urlData } = supabase.storage.from("post-images").getPublicUrl(path);
-        imageUrls.push(urlData.publicUrl);
+      const { error } = await supabase.storage.from("post-image").upload(path, file);
+      if (error) {
+        console.error("이미지 업로드 실패:", error.message, error);
+        alert(`이미지 업로드 실패: ${error.message}`);
+        setSubmitting(false);
+        return;
       }
+      const { data: urlData } = supabase.storage.from("post-image").getPublicUrl(path);
+      imageUrls.push(urlData.publicUrl);
     }
 
     const { data, error } = await supabase.from("posts").insert({
