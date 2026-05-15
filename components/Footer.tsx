@@ -12,7 +12,7 @@ export default function Footer() {
           <span className={styles.dot}>·</span>
           <a href="mailto:yyouks1070@gmail.com" className={styles.link}>yyouks1070@gmail.com</a>
         </div>
-        <p className={styles.copy}>© 2025 사지선다. All rights reserved.</p>
+        <p className={styles.copy}>© 2026 사지선다. All rights reserved.</p>
       </div>
     </footer>
   )

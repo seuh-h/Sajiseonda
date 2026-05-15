@@ -257,28 +257,39 @@ export default function MainPage() {
 
     let posts: { id: string; board_type: string; title: string; nickname: string; level: number; view_count: number; created_at: string }[] = [];
 
-    if (communityBoard === "전체") {
-      const [{ data: notices }, { data: others }] = await Promise.all([
-        supabase.from("posts")
-          .select("id, board_type, title, nickname, level, view_count, created_at")
-          .eq("board_type", "공지")
-          .order("created_at", { ascending: false })
-          .limit(3),
-        supabase.from("posts")
-          .select("id, board_type, title, nickname, level, view_count, created_at")
-          .neq("board_type", "공지")
-          .order("created_at", { ascending: false })
-          .limit(10),
-      ]);
-      posts = [...(notices ?? []), ...(others ?? [])];
-    } else {
+    if (communityBoard === "공지") {
       const { data } = await supabase
         .from("posts")
         .select("id, board_type, title, nickname, level, view_count, created_at")
-        .eq("board_type", communityBoard)
+        .eq("board_type", "공지")
         .order("created_at", { ascending: false })
         .limit(10);
       posts = data ?? [];
+    } else {
+      // Pin top 2 notices for all other tabs
+      const noticeQuery = supabase
+        .from("posts")
+        .select("id, board_type, title, nickname, level, view_count, created_at")
+        .eq("board_type", "공지")
+        .order("created_at", { ascending: false })
+        .limit(2);
+
+      const contentQuery = communityBoard === "전체"
+        ? supabase
+            .from("posts")
+            .select("id, board_type, title, nickname, level, view_count, created_at")
+            .neq("board_type", "공지")
+            .order("created_at", { ascending: false })
+            .limit(10)
+        : supabase
+            .from("posts")
+            .select("id, board_type, title, nickname, level, view_count, created_at")
+            .eq("board_type", communityBoard)
+            .order("created_at", { ascending: false })
+            .limit(10);
+
+      const [{ data: notices }, { data: others }] = await Promise.all([noticeQuery, contentQuery]);
+      posts = [...(notices ?? []), ...(others ?? [])];
     }
 
     if (posts.length === 0) { setCommunityPosts([]); return; }
