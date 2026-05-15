@@ -6,7 +6,6 @@ import { createClient } from '@/lib/supabase'
 import { useAuth } from '@/hooks/useAuth'
 import styles from './admin.module.css'
 
-import { getLevelName, getLevelIcon } from '@/lib/levelSystem'
 
 type UserProfile = {
   id: string
@@ -25,6 +24,19 @@ function isOnline(lastSeen: string | null): boolean {
 function isBanned(bannedUntil: string | null): boolean {
   if (!bannedUntil) return false
   return new Date(bannedUntil) > new Date()
+}
+
+function formatLastSeen(lastSeen: string | null): string {
+  if (!lastSeen) return '접속 기록 없음'
+  const diff = Date.now() - new Date(lastSeen).getTime()
+  const min = Math.floor(diff / 60000)
+  const hour = Math.floor(diff / 3600000)
+  const day = Math.floor(diff / 86400000)
+  if (min < 1) return '방금 전'
+  if (min < 60) return `${min}분 전`
+  if (hour < 24) return `${hour}시간 전`
+  if (day < 30) return `${day}일 전`
+  return new Date(lastSeen).toLocaleDateString('ko-KR')
 }
 
 function getBanLabel(bannedUntil: string | null): string {
@@ -84,11 +96,9 @@ export default function AdminPage() {
         <div className={styles.userInfo}>
           <span className={styles.userEmail}>{u.email ?? '이메일 없음'}</span>
           {u.nickname && <span className={styles.userNickname}>{u.nickname}</span>}
-          {u.level === 6
-            ? <span className={styles.adminBadge}>관리자</span>
-            : <span className={styles.userBadge}>{getLevelIcon(u.level ?? 1)} {getLevelName(u.level ?? 1)}</span>
-          }
+          {u.level === 6 && <span className={styles.adminBadge}>관리자</span>}
           {banned && <span className={styles.bannedBadge}>{getBanLabel(u.banned_until)}</span>}
+          {!isOnline(u.last_seen) && <span className={styles.lastSeen}>마지막 접속: {formatLastSeen(u.last_seen)}</span>}
         </div>
         <div className={styles.userActions}>
           {banned ? (

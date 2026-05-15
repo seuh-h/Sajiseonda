@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { createClient } from "@/lib/supabase";
@@ -59,6 +59,23 @@ export default function PostDetailPage() {
   const [passwordModal, setPasswordModal] = useState<null | "edit" | "delete">(null);
   const [passwordInput, setPasswordInput] = useState("");
   const [passwordError, setPasswordError] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const lightboxImages = post?.images ?? [];
+
+  const closeLightbox = useCallback(() => setLightboxIndex(null), []);
+  const prevImage = useCallback(() => setLightboxIndex((i) => (i !== null && i > 0 ? i - 1 : i)), []);
+  const nextImage = useCallback(() => setLightboxIndex((i) => (i !== null && i < lightboxImages.length - 1 ? i + 1 : i)), [lightboxImages.length]);
+
+  useEffect(() => {
+    if (lightboxIndex === null) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") prevImage();
+      if (e.key === "ArrowRight") nextImage();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [lightboxIndex, closeLightbox, prevImage, nextImage]);
 
   const requireLogin = useCallback(() => {
     if (window.confirm("로그인이 필요합니다.\n로그인하시겠습니까?")) {
@@ -182,6 +199,36 @@ export default function PostDetailPage() {
 
   return (
     <div className={styles.detailPage}>
+      {/* Lightbox */}
+      {lightboxIndex !== null && (
+        <div className={styles.lightboxOverlay} onClick={closeLightbox}>
+          <button className={styles.lightboxClose} onClick={closeLightbox}>✕</button>
+          {lightboxImages.length > 1 && (
+            <button
+              className={`${styles.lightboxArrow} ${styles.lightboxArrowLeft}`}
+              onClick={(e) => { e.stopPropagation(); prevImage(); }}
+              disabled={lightboxIndex === 0}
+            >‹</button>
+          )}
+          <img
+            src={lightboxImages[lightboxIndex]}
+            className={styles.lightboxImage}
+            alt={`이미지 ${lightboxIndex + 1}`}
+            onClick={(e) => e.stopPropagation()}
+          />
+          {lightboxImages.length > 1 && (
+            <button
+              className={`${styles.lightboxArrow} ${styles.lightboxArrowRight}`}
+              onClick={(e) => { e.stopPropagation(); nextImage(); }}
+              disabled={lightboxIndex === lightboxImages.length - 1}
+            >›</button>
+          )}
+          {lightboxImages.length > 1 && (
+            <span className={styles.lightboxCounter}>{lightboxIndex + 1} / {lightboxImages.length}</span>
+          )}
+        </div>
+      )}
+
       <header className={styles.header}>
         <button className={styles.backBtn} onClick={() => router.push("/community")}>← 게시판</button>
         <h1 className={styles.headerTitle}>커뮤니티</h1>
@@ -245,9 +292,9 @@ export default function PostDetailPage() {
           {post.images && post.images.length > 0 && (
             <div className={styles.detailImages}>
               {post.images.map((url, i) => (
-                <a key={i} href={url} target="_blank" rel="noopener noreferrer" className={styles.detailImageLink}>
+                <button key={i} className={styles.detailImageLink} onClick={() => setLightboxIndex(i)}>
                   <img src={url} className={styles.detailImage} alt={`이미지 ${i + 1}`} />
-                </a>
+                </button>
               ))}
             </div>
           )}

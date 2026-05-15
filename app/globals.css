@@ -29,3 +29,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Luxury warm mesh gradient background */
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 12% 10%, rgba(255, 235, 215, 0.25) 0%, transparent 50%),
+    radial-gradient(ellipse at 88% 88%, rgba(215, 228, 255, 0.3) 0%, transparent 50%),
+    #ffffff;
+  background-attachment: fixed;
+}
+

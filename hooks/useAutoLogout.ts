@@ -82,17 +82,38 @@ export function useAutoLogout(isLoggedIn: boolean) {
     const events = ['mousemove', 'mousedown', 'keypress', 'touchstart', 'scroll', 'click']
     events.forEach(e => window.addEventListener(e, resetActivity, { passive: true }))
 
+    const stored = localStorage.getItem(STORAGE_KEY)
     const now = Date.now()
-    lastResetTime.current = now
-    localStorage.setItem(STORAGE_KEY, now.toString())
-    setStateSync('active')
-    scheduleTimers(WARNING_DELAY, TOTAL_DELAY)
+
+    if (stored) {
+      const elapsed = now - parseInt(stored)
+      if (elapsed >= TOTAL_DELAY) {
+        // Session expired while away — sign out immediately
+        events.forEach(e => window.removeEventListener(e, resetActivity))
+        performSignOut()
+        return
+      } else if (elapsed >= WARNING_DELAY) {
+        lastResetTime.current = now
+        setStateSync('warning')
+        logoutTimer.current = setTimeout(performSignOut, TOTAL_DELAY - elapsed)
+      } else {
+        lastResetTime.current = now
+        setStateSync('active')
+        scheduleTimers(WARNING_DELAY - elapsed, TOTAL_DELAY - elapsed)
+      }
+    } else {
+      // Fresh login — start timers from now
+      lastResetTime.current = now
+      localStorage.setItem(STORAGE_KEY, now.toString())
+      setStateSync('active')
+      scheduleTimers(WARNING_DELAY, TOTAL_DELAY)
+    }
 
     return () => {
       events.forEach(e => window.removeEventListener(e, resetActivity))
       clearTimers()
     }
-  }, [isLoggedIn, resetActivity, scheduleTimers, clearTimers, setStateSync])
+  }, [isLoggedIn, resetActivity, scheduleTimers, clearTimers, setStateSync, performSignOut])
 
   // Tab visibility change — check elapsed time when returning to tab
   useEffect(() => {
