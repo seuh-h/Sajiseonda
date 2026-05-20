@@ -9,9 +9,10 @@ import { useAuth } from "@/hooks/useAuth";
 import { getLevelIcon, LEVEL_NAMES, LEVEL_ICONS } from "@/lib/levelSystem";
 import { createClient } from "@/lib/supabase";
 
-type Category = "전체" | "성격" | "연애" | "능력" | "기타";
+type Category = "전체" | "성격" | "연애" | "능력" | "기타" | "추리";
 
-const CATEGORIES: Category[] = ["전체", "성격", "연애", "능력", "기타"];
+const TEST_CATEGORIES: Category[] = ["전체", "성격", "연애", "능력", "기타"];
+const QUIZ_CATEGORIES: Category[] = ["추리"];
 
 const CARDS = [
   {
@@ -114,13 +115,13 @@ const CARDS = [
     tag: "능력",
   },
   {
-    categories: ["전체", "기타"] as Category[],
+    categories: ["전체", "추리"] as Category[],
     href: "/mystery",
     img: "/img/memory.svg",
     alt: "수평사고 퀴즈",
     title: "수평사고 퀴즈",
     desc: "단 하나의 사건, 질문과 추리로 진실을 밝혀내세요",
-    tag: "기타",
+    tag: "추리",
   },
 ];
 
@@ -323,7 +324,20 @@ export default function MainPage() {
             사지선다
           </div>
           <ul className={styles.navMenu}>
-            {CATEGORIES.map((cat) => (
+            {TEST_CATEGORIES.map((cat) => (
+              <li key={cat} className={styles.navItem}>
+                <button
+                  className={`${styles.navLink} ${active === cat ? styles.navLinkActive : ""}`}
+                  onClick={() => setActive(cat)}
+                >
+                  {cat}
+                </button>
+              </li>
+            ))}
+            <li className={styles.navItem}>
+              <span className={styles.navDivider} />
+            </li>
+            {QUIZ_CATEGORIES.map((cat) => (
               <li key={cat} className={styles.navItem}>
                 <button
                   className={`${styles.navLink} ${active === cat ? styles.navLinkActive : ""}`}

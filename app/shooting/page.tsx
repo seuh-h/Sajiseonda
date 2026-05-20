@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { recordSuccess } from "@/lib/levelSystem";
 import styles from "./shooting.module.css";
+import ShareResultButtons from "@/components/ShareResultButtons";
 
 type Screen = "start" | "game" | "result";
 type Difficulty = "easy" | "normal" | "hard" | "challenge";
@@ -37,6 +38,7 @@ export default function ShootingTest() {
   const spawnTimerRef = useRef<number | null>(null);
   const isGameOver = useRef(false);
   const scoreRef = useRef(0);
+  const resultRef = useRef<HTMLDivElement>(null);
 
   const scheduleNextSpawn = useCallback(() => {
     if (isGameOver.current) return;
@@ -188,18 +190,24 @@ export default function ShootingTest() {
 
       {screen === "result" && (
         <div className={styles.resultScreen}>
-          <div className={styles.resultEmoji}>💥</div>
-          <h2 className={styles.resultTitle}>GAME OVER</h2>
+          <div ref={resultRef} className="resultCard">
+            <div className={styles.resultEmoji}>💥</div>
+            <h2 className={styles.resultTitle}>GAME OVER</h2>
 
-          <div className={styles.scoreBoard}>
-            <h3>최종 명중 횟수</h3>
-            <div className={styles.finalScore}>{score} 타겟</div>
-            <div className={styles.rankBadge}>{getRank(score, difficulty)}</div>
-            <p style={{ marginTop: "12px", color: "#86868b", fontSize: "14px" }}>
-              플레이 난이도: {difficulty.toUpperCase()}
-            </p>
+            <div className={styles.scoreBoard}>
+              <h3>최종 명중 횟수</h3>
+              <div className={styles.finalScore}>{score} 타겟</div>
+              <div className={styles.rankBadge}>{getRank(score, difficulty)}</div>
+              <p style={{ marginTop: "12px", color: "#86868b", fontSize: "14px" }}>
+                플레이 난이도: {difficulty.toUpperCase()}
+              </p>
+            </div>
           </div>
-
+          <ShareResultButtons
+            resultRef={resultRef}
+            title={`사격 테스트: ${score}타겟 명중`}
+            description={`${getRank(score, difficulty)} | 난이도: ${difficulty.toUpperCase()}`}
+          />
           <button className={styles.restartBtn} onClick={resetGame}>다시 도전하기</button>
           <button className={styles.mainBtn} onClick={() => router.push("/main")}>메인으로 돌아가기</button>
         </div>

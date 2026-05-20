@@ -23,6 +23,11 @@
   }
 }
 
+/* Result card capture wrapper */
+.resultCard {
+  width: 100%;
+}
+
 /* Apple-style font smoothing */
 * {
   -webkit-font-smoothing: antialiased;

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { questions, results } from "./data";
 import type { Dimension } from "./data";
 import styles from "./mbti.module.css";
+import ShareResultButtons from "@/components/ShareResultButtons";
 
 // A=3(strongly first), B=1(weakly first), C=1(weakly second), D=3(strongly second)
 const CHOICE_SCORE = [
@@ -49,6 +50,7 @@ export default function MbtiTest() {
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
   const [resultType, setResultType] = useState("");
   const autoAdvanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
 
   const advance = (choice: number, currentAnswers: (number | null)[], qIndex: number) => {
     const newAnswers = [...currentAnswers];
@@ -104,20 +106,6 @@ export default function MbtiTest() {
     setResultType("");
   };
 
-  const handleShare = async (type: string, title: string) => {
-    const url = window.location.origin + "/mbti";
-    const text = `나의 MBTI는 ${type} - ${title}이에요!\n사지선다에서 테스트해보세요`;
-    if (navigator.share) {
-      try { await navigator.share({ title: "MBTI 테스트", text, url }); } catch {}
-    } else {
-      try {
-        await navigator.clipboard.writeText(`${text}\n${url}`);
-        alert("링크가 복사됐어요!");
-      } catch {
-        prompt("링크를 직접 복사해주세요:", `${text}\n${url}`);
-      }
-    }
-  };
 
   const progress = (currentQ / questions.length) * 100;
   const result = results[resultType];
@@ -187,31 +175,35 @@ export default function MbtiTest() {
       {/* ── 결과 화면 ── */}
       {screen === "result" && result && (
         <div className={styles.resultScreen}>
-          <div className={styles.resultEmoji}>{result.emoji}</div>
-          <div className={styles.resultType}>{result.type}</div>
-          <h2 className={styles.resultTitle}>{result.title}</h2>
-          <p className={styles.resultDesc}>{result.description}</p>
-          <div className={styles.resultGrid}>
-            <div className={styles.resultBox}>
-              <h3>강점</h3>
-              <ul>
-                {result.strengths.map((s) => (
-                  <li key={s}>{s}</li>
-                ))}
-              </ul>
-            </div>
-            <div className={styles.resultBox}>
-              <h3>약점</h3>
-              <ul>
-                {result.weaknesses.map((w) => (
-                  <li key={w}>{w}</li>
-                ))}
-              </ul>
+          <div ref={resultRef} className="resultCard">
+            <div className={styles.resultEmoji}>{result.emoji}</div>
+            <div className={styles.resultType}>{result.type}</div>
+            <h2 className={styles.resultTitle}>{result.title}</h2>
+            <p className={styles.resultDesc}>{result.description}</p>
+            <div className={styles.resultGrid}>
+              <div className={styles.resultBox}>
+                <h3>강점</h3>
+                <ul>
+                  {result.strengths.map((s) => (
+                    <li key={s}>{s}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className={styles.resultBox}>
+                <h3>약점</h3>
+                <ul>
+                  {result.weaknesses.map((w) => (
+                    <li key={w}>{w}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
-          <button className={styles.shareBtn} onClick={() => handleShare(result.type, result.title)}>
-            결과 공유하기
-          </button>
+          <ShareResultButtons
+            resultRef={resultRef}
+            title={`나의 MBTI는 ${result.type} - ${result.title}`}
+            description={result.description}
+          />
           <button className={styles.restartBtn} onClick={restart}>
             다시 테스트하기
           </button>

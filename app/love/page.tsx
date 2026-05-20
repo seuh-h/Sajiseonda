@@ -6,6 +6,7 @@ import Image from "next/image";
 import { questions, results } from "./data";
 import type { LoveDimension } from "./data";
 import styles from "./love.module.css";
+import ShareResultButtons from "@/components/ShareResultButtons";
 
 // A=3(strongly first), B=1(weakly first), C=1(weakly second), D=3(strongly second)
 const CHOICE_SCORE = [
@@ -42,6 +43,7 @@ export default function LoveTest() {
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
   const [resultType, setResultType] = useState("");
   const autoAdvanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
 
   const advance = (choice: number, currentAnswers: (number | null)[], qIndex: number) => {
     const newAnswers = [...currentAnswers];
@@ -97,20 +99,6 @@ export default function LoveTest() {
     setResultType("");
   };
 
-  const handleShare = async (title: string) => {
-    const url = window.location.origin + "/love";
-    const text = `나의 이상형은 ${title}이에요!\n사지선다에서 테스트해보세요`;
-    if (navigator.share) {
-      try { await navigator.share({ title: "이상형 테스트", text, url }); } catch {}
-    } else {
-      try {
-        await navigator.clipboard.writeText(`${text}\n${url}`);
-        alert("링크가 복사됐어요!");
-      } catch {
-        prompt("링크를 직접 복사해주세요:", `${text}\n${url}`);
-      }
-    }
-  };
 
   const progress = (currentQ / questions.length) * 100;
   const result = results[resultType];
@@ -183,16 +171,22 @@ export default function LoveTest() {
       {/* ── 결과 화면 ── */}
       {screen === "result" && result && (
         <div className={styles.resultScreen}>
-          <div className={styles.resultEmoji}>{result.emoji}</div>
-          <div className={styles.resultType}>{result.title}</div>
-          <p className={styles.resultDesc}>{result.description}</p>
-          <div className={styles.resultTraits}>
-            {result.traits.map((t) => (
-              <span key={t} className={styles.traitTag}>{t}</span>
-            ))}
+          <div ref={resultRef} className="resultCard">
+            <div className={styles.resultEmoji}>{result.emoji}</div>
+            <div className={styles.resultType}>{result.title}</div>
+            <p className={styles.resultDesc}>{result.description}</p>
+            <div className={styles.resultTraits}>
+              {result.traits.map((t) => (
+                <span key={t} className={styles.traitTag}>{t}</span>
+              ))}
+            </div>
+            <div className={styles.resultTip}>💡 {result.tip}</div>
           </div>
-          <div className={styles.resultTip}>💡 {result.tip}</div>
-          <button className={styles.shareBtn} onClick={() => handleShare(result.title)}>결과 공유하기</button>
+          <ShareResultButtons
+            resultRef={resultRef}
+            title={`나의 이상형은 ${result.title}`}
+            description={result.description}
+          />
           <button className={styles.restartBtn} onClick={restart}>다시 테스트하기</button>
           <button className={styles.mainBtn} onClick={() => router.push("/main")}>메인으로 돌아가기</button>
         </div>

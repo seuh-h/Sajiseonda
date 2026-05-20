@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { questions, results } from "./data";
 import styles from "./alba.module.css";
+import ShareResultButtons from "@/components/ShareResultButtons";
 
 const calculateResult = (answers: (number | null)[]) => {
   const counts = [0, 0, 0, 0];
@@ -24,6 +25,7 @@ export default function AlbaTest() {
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
   const [resultType, setResultType] = useState("");
   const autoAdvanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
 
   const advance = (choice: number, currentAnswers: (number | null)[], qIndex: number) => {
     const newAnswers = [...currentAnswers];
@@ -79,20 +81,6 @@ export default function AlbaTest() {
     setResultType("");
   };
 
-  const handleShare = async (type: string, title: string) => {
-    const url = window.location.origin + "/alba";
-    const text = `나의 알바생 유형은 ${type} - ${title}이에요!\n사지선다에서 테스트해보세요`;
-    if (navigator.share) {
-      try { await navigator.share({ title: "K-알바생 멘탈 테스트", text, url }); } catch {}
-    } else {
-      try {
-        await navigator.clipboard.writeText(`${text}\n${url}`);
-        alert("링크가 복사됐어요!");
-      } catch {
-        prompt("링크를 직접 복사해주세요:", `${text}\n${url}`);
-      }
-    }
-  };
 
   const progress = (currentQ / questions.length) * 100;
   const result = results[resultType];
@@ -151,31 +139,35 @@ export default function AlbaTest() {
 
       {screen === "result" && result && (
         <div className={styles.resultScreen}>
-          <div className={styles.resultEmoji}>{result.emoji}</div>
-          <div className={styles.resultType}>{result.type} Type</div>
-          <h2 className={styles.resultTitle}>{result.title}</h2>
-          <p className={styles.resultDesc}>{result.description}</p>
-          <div className={styles.resultGrid}>
-            <div className={styles.resultBox}>
-              <h3>강점</h3>
-              <ul>
-                {result.strengths.map((s) => (
-                  <li key={s}>{s}</li>
-                ))}
-              </ul>
-            </div>
-            <div className={styles.resultBox}>
-              <h3>약점</h3>
-              <ul>
-                {result.weaknesses.map((w) => (
-                  <li key={w}>{w}</li>
-                ))}
-              </ul>
+          <div ref={resultRef} className="resultCard">
+            <div className={styles.resultEmoji}>{result.emoji}</div>
+            <div className={styles.resultType}>{result.type} Type</div>
+            <h2 className={styles.resultTitle}>{result.title}</h2>
+            <p className={styles.resultDesc}>{result.description}</p>
+            <div className={styles.resultGrid}>
+              <div className={styles.resultBox}>
+                <h3>강점</h3>
+                <ul>
+                  {result.strengths.map((s) => (
+                    <li key={s}>{s}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className={styles.resultBox}>
+                <h3>약점</h3>
+                <ul>
+                  {result.weaknesses.map((w) => (
+                    <li key={w}>{w}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
-          <button className={styles.shareBtn} onClick={() => handleShare(result.type, result.title)}>
-            결과 공유하기
-          </button>
+          <ShareResultButtons
+            resultRef={resultRef}
+            title={`K-알바생 유형: ${result.type} Type - ${result.title}`}
+            description={result.description}
+          />
           <button className={styles.restartBtn} onClick={restart}>
             다시 테스트하기
           </button>

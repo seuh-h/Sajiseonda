@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useAuth } from "@/hooks/useAuth";
 import { recordSuccess } from "@/lib/levelSystem";
 import styles from "./memory.module.css";
+import ShareResultButtons from "@/components/ShareResultButtons";
 
 type Screen = "start" | "countdown" | "game";
 
@@ -30,6 +31,7 @@ export default function MemoryTest() {
   const [gridSize, setGridSize] = useState(2);
   const [activeTiles, setActiveTiles] = useState<Set<number>>(new Set());
 
+  const resultRef = useRef<HTMLDivElement>(null);
   const gameSequence = useRef<number[]>([]);
   const levelRef = useRef(0);
   const isWaiting = useRef(false);
@@ -209,10 +211,17 @@ export default function MemoryTest() {
 
           {isGameOver && (
             <div className={styles.gameOver}>
-              <h3 className={styles.gameOverTitle}>GAME OVER</h3>
-              <p className={styles.finalScore}>
-                당신은 레벨 {finalLevel}까지 도달했습니다.
-              </p>
+              <div ref={resultRef} className="resultCard">
+                <h3 className={styles.gameOverTitle}>GAME OVER</h3>
+                <p className={styles.finalScore}>
+                  당신은 레벨 {finalLevel}까지 도달했습니다.
+                </p>
+              </div>
+              <ShareResultButtons
+                resultRef={resultRef}
+                title={`기억력 테스트: 레벨 ${finalLevel} 도달`}
+                description="사지선다 기억력 테스트에서 나의 기억력 한계를 확인해보세요!"
+              />
               <button className={styles.btn} onClick={resetGame}>
                 메인으로
               </button>

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { recordSuccess } from "@/lib/levelSystem";
 import styles from "./aim.module.css";
+import ShareResultButtons from "@/components/ShareResultButtons";
 
 type Screen = "start" | "game" | "result";
 
@@ -30,6 +31,7 @@ export default function AimTest() {
 
   const timerRef = useRef<number>(0);
   const startTimeRef = useRef<number>(0);
+  const resultRef = useRef<HTMLDivElement>(null);
 
   const updateTimer = useCallback(() => {
     if (startTimeRef.current) {
@@ -136,15 +138,21 @@ export default function AimTest() {
 
       {screen === "result" && (
         <div className={styles.resultScreen}>
-          <div className={styles.resultEmoji}>🏆</div>
-          <div className={styles.resultRank}>{rankInfo.rank} Class</div>
-          <h2 className={styles.resultTitle}>{rankInfo.title}</h2>
+          <div ref={resultRef} className="resultCard">
+            <div className={styles.resultEmoji}>🏆</div>
+            <div className={styles.resultRank}>{rankInfo.rank} Class</div>
+            <h2 className={styles.resultTitle}>{rankInfo.title}</h2>
 
-          <div className={styles.scoreBoard}>
-            <h3>최종 기록</h3>
-            <div className={styles.finalTime}>{formatTime(finalTime)} 초</div>
+            <div className={styles.scoreBoard}>
+              <h3>최종 기록</h3>
+              <div className={styles.finalTime}>{formatTime(finalTime)} 초</div>
+            </div>
           </div>
-
+          <ShareResultButtons
+            resultRef={resultRef}
+            title={`동체시력 테스트: ${rankInfo.rank} Class`}
+            description={`${rankInfo.title} | ${formatTime(finalTime)}초 달성`}
+          />
           <button className={styles.restartBtn} onClick={resetGame}>
             다시 도전하기
           </button>

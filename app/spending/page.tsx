@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { questions, results } from "./data";
 import styles from "./spending.module.css";
+import ShareResultButtons from "@/components/ShareResultButtons";
 
 const calculateResult = (answers: (number | null)[]) => {
   let score = 0;
@@ -28,6 +29,7 @@ export default function SpendingPage() {
   const [answers, setAnswers] = useState<(number | null)[]>(initAnswers());
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
   const [resultType, setResultType] = useState("");
+  const resultRef = useRef<HTMLDivElement>(null);
 
   const advance = (choice: number, currentAnswers: (number | null)[], qIndex: number) => {
     const newAnswers = [...currentAnswers];
@@ -108,14 +110,21 @@ export default function SpendingPage() {
 
       {screen === "result" && result && (
         <div className={styles.resultScreen}>
-          <div className={styles.resultEmoji}>{result.emoji}</div>
-          <div className={styles.resultType}>{result.type}</div>
-          <h2 className={styles.resultTitle}>{result.title}</h2>
-          <p className={styles.resultDesc}>{result.description}</p>
-          <div className={styles.resultGrid}>
-            <div className={styles.resultBox}><h3>특징</h3><ul>{result.strengths.map((s) => <li key={s}>{s}</li>)}</ul></div>
-            <div className={styles.resultBox}><h3>주의점</h3><ul>{result.weaknesses.map((w) => <li key={w}>{w}</li>)}</ul></div>
+          <div ref={resultRef} className="resultCard">
+            <div className={styles.resultEmoji}>{result.emoji}</div>
+            <div className={styles.resultType}>{result.type}</div>
+            <h2 className={styles.resultTitle}>{result.title}</h2>
+            <p className={styles.resultDesc}>{result.description}</p>
+            <div className={styles.resultGrid}>
+              <div className={styles.resultBox}><h3>특징</h3><ul>{result.strengths.map((s) => <li key={s}>{s}</li>)}</ul></div>
+              <div className={styles.resultBox}><h3>주의점</h3><ul>{result.weaknesses.map((w) => <li key={w}>{w}</li>)}</ul></div>
+            </div>
           </div>
+          <ShareResultButtons
+            resultRef={resultRef}
+            title={`소비 유형: ${result.type} - ${result.title}`}
+            description={result.description}
+          />
           <button className={styles.restartBtn} onClick={restart}>다시 테스트하기</button>
           <button className={styles.mainBtn} onClick={() => router.push("/main")}>메인으로 돌아가기</button>
         </div>

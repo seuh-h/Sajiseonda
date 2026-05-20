@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { recordSuccess } from "@/lib/levelSystem";
 import styles from "./reaction.module.css";
+import ShareResultButtons from "@/components/ShareResultButtons";
 
 type GameState = "start" | "waiting" | "ready" | "early" | "result" | "finish";
 
@@ -18,6 +19,7 @@ export default function ReactionTest() {
 
   const startTime = useRef<number>(0);
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
 
   const startRound = useCallback(() => {
     setGameState("waiting");
@@ -108,26 +110,32 @@ export default function ReactionTest() {
 
       {gameState === "finish" && (
         <div className={styles.resultScreen}>
-          <div className={styles.resultEmoji}>⚡</div>
-          <h2 className={styles.resultTitle}>테스트 완료!</h2>
+          <div ref={resultRef} className="resultCard">
+            <div className={styles.resultEmoji}>⚡</div>
+            <h2 className={styles.resultTitle}>테스트 완료!</h2>
 
-          <div className={styles.scoreBoard}>
-            <div className={styles.averageBox}>
-              <h3>평균 반응속도</h3>
-              <div className={styles.averageScore}>{getAverage()} ms</div>
-              <p className={styles.rankText}>{getRank(getAverage())}</p>
+            <div className={styles.scoreBoard}>
+              <div className={styles.averageBox}>
+                <h3>평균 반응속도</h3>
+                <div className={styles.averageScore}>{getAverage()} ms</div>
+                <p className={styles.rankText}>{getRank(getAverage())}</p>
+              </div>
+
+              <ul className={styles.historyList}>
+                {results.map((time, idx) => (
+                  <li key={idx}>
+                    <span>{idx + 1}회차</span>
+                    <span>{time} ms</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-
-            <ul className={styles.historyList}>
-              {results.map((time, idx) => (
-                <li key={idx}>
-                  <span>{idx + 1}회차</span>
-                  <span>{time} ms</span>
-                </li>
-              ))}
-            </ul>
           </div>
-
+          <ShareResultButtons
+            resultRef={resultRef}
+            title={`반응속도 테스트: 평균 ${getAverage()}ms`}
+            description={getRank(getAverage())}
+          />
           <div className={styles.btnGroup}>
             <button className={styles.restartBtn} onClick={resetGame}>
               다시 도전하기

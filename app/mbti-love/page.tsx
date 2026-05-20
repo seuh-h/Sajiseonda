@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { questions, MBTI_TYPES, RESULT_MESSAGES, calculateResult } from "./data";
 import type { MBTIType } from "./data";
 import styles from "./mbti-love.module.css";
+import ShareResultButtons from "@/components/ShareResultButtons";
 
 const initAnswers = () => Array<number | null>(questions.length).fill(null);
 
@@ -16,6 +17,7 @@ export default function MBTILoveTest() {
   const [answers, setAnswers] = useState<(number | null)[]>(initAnswers());
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
   const [resultData, setResultData] = useState<ReturnType<typeof calculateResult> | null>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
 
   const handleSelectMBTI = (mbti: MBTIType) => {
     setPartnerMBTI(mbti);
@@ -65,20 +67,6 @@ export default function MBTILoveTest() {
     setResultData(null);
   };
 
-  const handleShare = async (title: string) => {
-    const url = window.location.origin + "/mbti-love";
-    const text = `우리의 MBTI 궁합은 ${title}!\n사지선다에서 테스트해보세요`;
-    if (navigator.share) {
-      try { await navigator.share({ title: "MBTI 궁합 테스트", text, url }); } catch {}
-    } else {
-      try {
-        await navigator.clipboard.writeText(`${text}\n${url}`);
-        alert("링크가 복사됐어요!");
-      } catch {
-        prompt("링크를 직접 복사해주세요:", `${text}\n${url}`);
-      }
-    }
-  };
 
   const progress = (currentQ / questions.length) * 100;
   const resultMsg = resultData ? RESULT_MESSAGES[resultData.level] : null;
@@ -159,31 +147,36 @@ export default function MBTILoveTest() {
       {/* Result screen */}
       {screen === "result" && resultData && resultMsg && (
         <div className={styles.resultScreen}>
-          <div className={styles.resultEmoji}>{resultMsg.emoji}</div>
-          <div className={`${styles.resultLevel} ${styles[`level_${resultData.level}`]}`}>
-            {resultMsg.title}
-          </div>
-          <p className={styles.resultMessage}>{resultMsg.message}</p>
+          <div ref={resultRef} className="resultCard">
+            <div className={styles.resultEmoji}>{resultMsg.emoji}</div>
+            <div className={`${styles.resultLevel} ${styles[`level_${resultData.level}`]}`}>
+              {resultMsg.title}
+            </div>
+            <p className={styles.resultMessage}>{resultMsg.message}</p>
 
-          <div className={styles.feedbackSection}>
-            <h3 className={styles.feedbackTitle}>상세 피드백</h3>
-            {resultData.feedbacks.map((fb) => (
-              <div
-                key={fb.dimension}
-                className={`${styles.feedbackCard} ${fb.isGood ? styles.feedbackGood : styles.feedbackBad}`}
-              >
-                <div className={styles.feedbackHeader}>
-                  <span className={styles.feedbackDim}>{fb.dimension}</span>
-                  <span className={`${styles.feedbackIcon} ${fb.isGood ? styles.feedbackIconGood : styles.feedbackIconBad}`}>
-                    {fb.isGood ? "✓" : "!"}
-                  </span>
+            <div className={styles.feedbackSection}>
+              <h3 className={styles.feedbackTitle}>상세 피드백</h3>
+              {resultData.feedbacks.map((fb) => (
+                <div
+                  key={fb.dimension}
+                  className={`${styles.feedbackCard} ${fb.isGood ? styles.feedbackGood : styles.feedbackBad}`}
+                >
+                  <div className={styles.feedbackHeader}>
+                    <span className={styles.feedbackDim}>{fb.dimension}</span>
+                    <span className={`${styles.feedbackIcon} ${fb.isGood ? styles.feedbackIconGood : styles.feedbackIconBad}`}>
+                      {fb.isGood ? "✓" : "!"}
+                    </span>
+                  </div>
+                  <p className={styles.feedbackText}>{fb.text}</p>
                 </div>
-                <p className={styles.feedbackText}>{fb.text}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-
-          <button className={styles.shareBtn} onClick={() => handleShare(resultMsg.title)}>결과 공유하기</button>
+          <ShareResultButtons
+            resultRef={resultRef}
+            title={`MBTI 궁합 결과: ${resultMsg.title}`}
+            description={resultMsg.message}
+          />
           <button className={styles.restartBtn} onClick={restart}>다시 테스트하기</button>
           <button className={styles.mainBtn} onClick={() => router.push("/main")}>메인으로 돌아가기</button>
         </div>
