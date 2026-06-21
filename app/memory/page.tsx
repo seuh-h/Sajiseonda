@@ -3,6 +3,7 @@
 import { useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import { useAuth } from "@/hooks/useAuth";
+import { useTranslation } from "@/hooks/useTranslation";
 import { recordSuccess } from "@/lib/levelSystem";
 import styles from "./memory.module.css";
 import ShareResultButtons from "@/components/ShareResultButtons";
@@ -22,10 +23,11 @@ const TILE_SIZES: Record<number, number> = { 2: 140, 3: 140, 4: 120, 5: 100 };
 const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 
 export default function MemoryTest() {
-  const { user } = useAuth()
+  const { user } = useAuth();
+  const { t } = useTranslation();
   const [screen, setScreen] = useState<Screen>("start");
   const [countdownText, setCountdownText] = useState("3");
-  const [statusText, setStatusText] = useState("준비하세요!");
+  const [statusText, setStatusText] = useState("");
   const [isGameOver, setIsGameOver] = useState(false);
   const [finalLevel, setFinalLevel] = useState(0);
   const [gridSize, setGridSize] = useState(2);
@@ -64,18 +66,18 @@ export default function MemoryTest() {
   );
 
   const handleGameOver = useCallback(() => {
-    setStatusText("틀렸습니다!");
+    setStatusText(t.memory.wrong);
     setFinalLevel(levelRef.current);
     setIsGameOver(true);
     isWaiting.current = false;
-    if (user) recordSuccess(user.id, 'memory')
-  }, [user]);
+    if (user) recordSuccess(user.id, 'memory');
+  }, [user, t]);
 
   const nextLevel = useCallback(async () => {
     levelRef.current++;
     userSequence.current = [];
     isWaiting.current = false;
-    setStatusText(`레벨 ${levelRef.current}: 기억하세요!`);
+    setStatusText(t.memory.remember.replace('{level}', String(levelRef.current)));
 
     const randomIndex = Math.floor(Math.random() * (gridSizeRef.current * gridSizeRef.current));
     gameSequence.current.push(randomIndex);
@@ -84,8 +86,8 @@ export default function MemoryTest() {
     await playSequence(gameSequence.current, levelRef.current);
 
     isWaiting.current = true;
-    setStatusText(`당신의 차례! (0/${gameSequence.current.length})`);
-  }, [playSequence]);
+    setStatusText(t.memory.yourTurn.replace('{total}', String(gameSequence.current.length)));
+  }, [playSequence, t]);
 
   const onTileClick = useCallback(
     (index: number) => {
@@ -110,14 +112,14 @@ export default function MemoryTest() {
 
       const progress = userSequence.current.length;
       const total = gameSequence.current.length;
-      setStatusText(`진행 중... (${progress}/${total})`);
+      setStatusText(t.memory.progress.replace('{done}', String(progress)).replace('{total}', String(total)));
 
       if (progress === total) {
         isWaiting.current = false;
         setTimeout(() => nextLevel(), 1000);
       }
     },
-    [handleGameOver, nextLevel]
+    [handleGameOver, nextLevel, t]
   );
 
   const startGame = useCallback(
@@ -143,12 +145,12 @@ export default function MemoryTest() {
         } else {
           clearInterval(timer);
           setScreen("game");
-          setStatusText("준비하세요!");
+          setStatusText(t.memory.ready);
           nextLevel();
         }
       }, 1000);
     },
-    [nextLevel]
+    [nextLevel, t]
   );
 
   const resetGame = useCallback(() => {
@@ -167,19 +169,13 @@ export default function MemoryTest() {
     <div className={styles.body}>
       {screen === "start" && (
         <div className={styles.startScreen}>
-          <Image
-            src="/img/memory.png"
-            alt="Memory Logo"
-            width={450}
-            height={450}
-            className={styles.startImage}
-          />
-          <h2 className={styles.startTitle}>난이도를 선택하세요</h2>
+          <Image src="/img/memory.png" alt={t.memory.ready} width={450} height={450} className={styles.startImage} />
+          <h2 className={styles.startTitle}>{t.common.difficulty}</h2>
           <div className={styles.difficultyContainer}>
-            <button className={styles.btn} onClick={() => startGame(2)}>쉬움</button>
-            <button className={styles.btn} onClick={() => startGame(3)}>보통</button>
-            <button className={styles.btn} onClick={() => startGame(4)}>어려움</button>
-            <button className={styles.btn} onClick={() => startGame(5)}>챌린지</button>
+            <button className={styles.btn} onClick={() => startGame(2)}>{t.common.easy}</button>
+            <button className={styles.btn} onClick={() => startGame(3)}>{t.common.normal}</button>
+            <button className={styles.btn} onClick={() => startGame(4)}>{t.common.hard}</button>
+            <button className={styles.btn} onClick={() => startGame(5)}>{t.common.challenge}</button>
           </div>
         </div>
       )}
@@ -199,11 +195,7 @@ export default function MemoryTest() {
               <div
                 key={i}
                 className={`${styles.tile} ${activeTiles.has(i) ? styles.tileActive : ""}`}
-                style={{
-                  backgroundColor: COLORS[i],
-                  width: tileSize,
-                  height: tileSize,
-                }}
+                style={{ backgroundColor: COLORS[i], width: tileSize, height: tileSize }}
                 onClick={() => onTileClick(i)}
               />
             ))}
@@ -212,18 +204,18 @@ export default function MemoryTest() {
           {isGameOver && (
             <div className={styles.gameOver}>
               <div ref={resultRef} className="resultCard">
-                <h3 className={styles.gameOverTitle}>GAME OVER</h3>
+                <h3 className={styles.gameOverTitle}>{t.common.gameOver}</h3>
                 <p className={styles.finalScore}>
-                  당신은 레벨 {finalLevel}까지 도달했습니다.
+                  {t.memory.reachedLevel.replace('{level}', String(finalLevel))}
                 </p>
               </div>
               <ShareResultButtons
                 resultRef={resultRef}
-                title={`기억력 테스트: 레벨 ${finalLevel} 도달`}
-                description="사지선다 기억력 테스트에서 나의 기억력 한계를 확인해보세요!"
+                title={t.memory.shareTitle.replace('{level}', String(finalLevel))}
+                description={t.memory.shareDesc}
               />
               <button className={styles.btn} onClick={resetGame}>
-                메인으로
+                {t.memory.backToMain}
               </button>
             </div>
           )}

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import styles from "./main.module.css";
 import { useAuth } from "@/hooks/useAuth";
+import { useTranslation } from "@/hooks/useTranslation";
 import { getLevelIcon, LEVEL_NAMES, LEVEL_ICONS } from "@/lib/levelSystem";
 import { createClient } from "@/lib/supabase";
 
@@ -14,115 +15,21 @@ type Category = "전체" | "성격" | "연애" | "능력" | "기타" | "추리";
 const TEST_CATEGORIES: Category[] = ["전체", "성격", "연애", "능력", "기타"];
 const QUIZ_CATEGORIES: Category[] = ["추리"];
 
-const CARDS = [
-  {
-    categories: ["전체", "성격"] as Category[],
-    href: "/mbti",
-    img: "/img/mbti.svg",
-    alt: "MBTI 테스트",
-    title: "MBTI 테스트",
-    desc: "나의 진짜 성격은 무엇일까?",
-    tag: "성격",
-  },
-  {
-    categories: ["전체", "연애"] as Category[],
-    href: "/love",
-    img: "/img/love.svg",
-    alt: "이상형 테스트",
-    title: "이상형 테스트",
-    desc: "나의 이상형은 어떤 사람일까?",
-    tag: "연애",
-  },
-  {
-    categories: ["전체", "연애"] as Category[],
-    href: "/mbti-love",
-    img: "/img/love.svg",
-    alt: "MBTI 궁합 테스트",
-    title: "MBTI 궁합 테스트",
-    desc: "연인의 MBTI와 나는 잘 맞을까?",
-    tag: "연애",
-  },
-  {
-    categories: ["전체", "능력"] as Category[],
-    href: "/memory",
-    img: "/img/memory.svg",
-    alt: "기억력 테스트",
-    title: "기억력 테스트",
-    desc: "나의 기억력 한계는 어디까지일까?",
-    tag: "능력",
-  },
-  {
-    categories: ["전체", "기타"] as Category[],
-    href: "/alba",
-    img: "/img/mbti.svg",
-    alt: "알바생 멘탈 테스트",
-    title: "K-알바생 멘탈 테스트",
-    desc: "당신에게 닥칠 억까 상황 속에서 살아남으세요",
-    tag: "기타",
-  },
-  {
-    categories: ["전체", "기타"] as Category[],
-    href: "/spending",
-    img: "/img/mbti.svg",
-    alt: "소비 습관 테스트",
-    title: "소비 습관 테스트",
-    desc: "내 통장이 텅장이 되는 이유, 소비 습관을 알아보세요",
-    tag: "기타",
-  },
-  {
-    categories: ["전체", "성격"] as Category[],
-    href: "/empathy",
-    img: "/img/love.svg",
-    alt: "공감 능력 테스트",
-    title: "공감 능력 테스트",
-    desc: "너 T야? 나의 진짜 공감 능력을 확인해보세요",
-    tag: "성격",
-  },
-  {
-    categories: ["전체", "능력"] as Category[],
-    href: "/detective",
-    img: "/img/memory.svg",
-    alt: "추리력 테스트",
-    title: "추리력 테스트",
-    desc: "주어진 상황 속에서 숨겨진 모순과 범인을 찾아내세요",
-    tag: "능력",
-  },
-  {
-    categories: ["전체", "능력"] as Category[],
-    href: "/reaction",
-    img: "/img/memory.svg",
-    alt: "반응속도 테스트",
-    title: "반응속도 테스트",
-    desc: "나의 반응속도는 0.00몇 초일까? 한계를 시험해보세요.",
-    tag: "능력",
-  },
-  {
-    categories: ["전체", "능력"] as Category[],
-    href: "/aim",
-    img: "/img/memory.svg",
-    alt: "동체시력 테스트",
-    title: "동체시력 테스트",
-    desc: "1부터 20까지 숫자를 찾아 클릭! 당신의 눈과 손의 협응력은?",
-    tag: "능력",
-  },
-  {
-    categories: ["전체", "능력"] as Category[],
-    href: "/shooting",
-    img: "/img/memory.svg",
-    alt: "사격 능력 테스트",
-    title: "사격 능력 테스트",
-    desc: "움직이는 표적을 쏴라! 당신의 동체시력과 에임 한계는?",
-    tag: "능력",
-  },
-  {
-    categories: ["전체", "추리"] as Category[],
-    href: "/mystery",
-    img: "/img/memory.svg",
-    alt: "수평사고 퀴즈",
-    title: "수평사고 퀴즈",
-    desc: "단 하나의 사건, 질문과 추리로 진실을 밝혀내세요",
-    tag: "추리",
-  },
+type CardKey = "mbti" | "love" | "mbtiLove" | "memory" | "alba" | "spending" | "empathy" | "detective" | "reaction" | "aim" | "shooting" | "mystery";
+
+const CARDS: { cardKey: CardKey; categories: Category[]; href: string; img: string; alt: string; tag: string }[] = [
+  { cardKey: "mbti",      categories: ["전체", "성격"], href: "/mbti",       img: "/img/mbti.svg",   alt: "MBTI 테스트",        tag: "성격" },
+  { cardKey: "love",      categories: ["전체", "연애"], href: "/love",       img: "/img/love.svg",   alt: "이상형 테스트",       tag: "연애" },
+  { cardKey: "mbtiLove",  categories: ["전체", "연애"], href: "/mbti-love",  img: "/img/love.svg",   alt: "MBTI 궁합 테스트",   tag: "연애" },
+  { cardKey: "memory",    categories: ["전체", "능력"], href: "/memory",     img: "/img/memory.svg", alt: "기억력 테스트",       tag: "능력" },
+  { cardKey: "alba",      categories: ["전체", "기타"], href: "/alba",       img: "/img/mbti.svg",   alt: "알바생 멘탈 테스트", tag: "기타" },
+  { cardKey: "spending",  categories: ["전체", "기타"], href: "/spending",   img: "/img/mbti.svg",   alt: "소비 습관 테스트",   tag: "기타" },
+  { cardKey: "empathy",   categories: ["전체", "성격"], href: "/empathy",    img: "/img/love.svg",   alt: "공감 능력 테스트",   tag: "성격" },
+  { cardKey: "detective", categories: ["전체", "능력"], href: "/detective",  img: "/img/memory.svg", alt: "추리력 테스트",       tag: "능력" },
+  { cardKey: "reaction",  categories: ["전체", "능력"], href: "/reaction",   img: "/img/memory.svg", alt: "반응속도 테스트",     tag: "능력" },
+  { cardKey: "aim",       categories: ["전체", "능력"], href: "/aim",        img: "/img/memory.svg", alt: "동체시력 테스트",     tag: "능력" },
+  { cardKey: "shooting",  categories: ["전체", "능력"], href: "/shooting",   img: "/img/memory.svg", alt: "사격 능력 테스트",   tag: "능력" },
+  { cardKey: "mystery",   categories: ["전체", "추리"], href: "/mystery",    img: "/img/memory.svg", alt: "수평사고 퀴즈",       tag: "추리" },
 ];
 
 type LikesState = Record<string, { count: number; liked: boolean }>;
@@ -140,11 +47,6 @@ interface CommunityPost {
   created_at: string;
   comment_count: number;
 }
-const SORT_OPTIONS: { value: SortBy; label: string }[] = [
-  { value: "latest", label: "최신순" },
-  { value: "popular", label: "인기순" },
-  { value: "likes", label: "좋아요순" },
-];
 
 function formatRelativeTime(dateStr: string) {
   const now = new Date();
@@ -169,7 +71,38 @@ export default function MainPage() {
   const [communityBoard, setCommunityBoard] = useState<CommunityBoard>("전체");
   const [communityPosts, setCommunityPosts] = useState<CommunityPost[]>([]);
   const { user, level, isAdmin, avatarUrl, nickname, loading } = useAuth();
+  const { t } = useTranslation();
   const router = useRouter();
+
+  const getCatLabel = (cat: Category) => ({
+    '전체': t.main.categories.all,
+    '성격': t.main.categories.personality,
+    '연애': t.main.categories.love,
+    '능력': t.main.categories.ability,
+    '기타': t.main.categories.other,
+    '추리': t.main.categories.mystery,
+  }[cat]);
+
+  const getTagLabel = (tag: string) => ({
+    '성격': t.main.categories.personality,
+    '연애': t.main.categories.love,
+    '능력': t.main.categories.ability,
+    '기타': t.main.categories.other,
+    '추리': t.main.categories.mystery,
+  }[tag] ?? tag);
+
+  const getBoardLabel = (board: CommunityBoard) => ({
+    '전체': t.main.community.boards.all,
+    '자유게시판': t.main.community.boards.free,
+    '공지': t.main.community.boards.notice,
+    '후기': t.main.community.boards.review,
+  }[board]);
+
+  const SORT_OPTIONS: { value: SortBy; label: string }[] = [
+    { value: "latest",  label: t.main.sort.latest },
+    { value: "popular", label: t.main.sort.popular },
+    { value: "likes",   label: t.main.sort.likes },
+  ];
 
   const visibleCards = CARDS.filter((c) => c.categories.includes(active));
   const sortedCards = [...visibleCards].sort((a, b) => {
@@ -228,20 +161,12 @@ export default function MainPage() {
   }, [loading, fetchLikes, fetchViews]);
 
   async function handleLike(testId: string) {
-    if (!user) {
-      router.push("/login");
-      return;
-    }
+    if (!user) { router.push("/login"); return; }
 
     const isLiked = likes[testId]?.liked;
-
-    // optimistic update
     setLikes((prev) => ({
       ...prev,
-      [testId]: {
-        count: (prev[testId]?.count ?? 0) + (isLiked ? -1 : 1),
-        liked: !isLiked,
-      },
+      [testId]: { count: (prev[testId]?.count ?? 0) + (isLiked ? -1 : 1), liked: !isLiked },
     }));
 
     const supabase = createClient();
@@ -267,7 +192,6 @@ export default function MainPage() {
         .limit(10);
       posts = data ?? [];
     } else {
-      // Pin top 2 notices for all other tabs
       const noticeQuery = supabase
         .from("posts")
         .select("id, board_type, title, nickname, level, view_count, created_at")
@@ -276,18 +200,8 @@ export default function MainPage() {
         .limit(2);
 
       const contentQuery = communityBoard === "전체"
-        ? supabase
-            .from("posts")
-            .select("id, board_type, title, nickname, level, view_count, created_at")
-            .neq("board_type", "공지")
-            .order("created_at", { ascending: false })
-            .limit(10)
-        : supabase
-            .from("posts")
-            .select("id, board_type, title, nickname, level, view_count, created_at")
-            .eq("board_type", communityBoard)
-            .order("created_at", { ascending: false })
-            .limit(10);
+        ? supabase.from("posts").select("id, board_type, title, nickname, level, view_count, created_at").neq("board_type", "공지").order("created_at", { ascending: false }).limit(10)
+        : supabase.from("posts").select("id, board_type, title, nickname, level, view_count, created_at").eq("board_type", communityBoard).order("created_at", { ascending: false }).limit(10);
 
       const [{ data: notices }, { data: others }] = await Promise.all([noticeQuery, contentQuery]);
       posts = [...(notices ?? []), ...(others ?? [])];
@@ -296,8 +210,7 @@ export default function MainPage() {
     if (posts.length === 0) { setCommunityPosts([]); return; }
 
     const postIds = posts.map((p) => p.id);
-    const { data: commentRows } = await supabase
-      .from("comments").select("post_id").in("post_id", postIds);
+    const { data: commentRows } = await supabase.from("comments").select("post_id").in("post_id", postIds);
     const commentMap: Record<string, number> = {};
     commentRows?.forEach((c) => { commentMap[c.post_id] = (commentMap[c.post_id] ?? 0) + 1; });
 
@@ -330,30 +243,24 @@ export default function MainPage() {
                   className={`${styles.navLink} ${active === cat ? styles.navLinkActive : ""}`}
                   onClick={() => setActive(cat)}
                 >
-                  {cat}
+                  {getCatLabel(cat)}
                 </button>
               </li>
             ))}
-            <li className={styles.navItem}>
-              <span className={styles.navDivider} />
-            </li>
+            <li className={styles.navItem}><span className={styles.navDivider} /></li>
             {QUIZ_CATEGORIES.map((cat) => (
               <li key={cat} className={styles.navItem}>
                 <button
                   className={`${styles.navLink} ${active === cat ? styles.navLinkActive : ""}`}
                   onClick={() => setActive(cat)}
                 >
-                  {cat}
+                  {getCatLabel(cat)}
                 </button>
               </li>
             ))}
+            <li className={styles.navItem}><span className={styles.navDivider} /></li>
             <li className={styles.navItem}>
-              <span className={styles.navDivider} />
-            </li>
-            <li className={styles.navItem}>
-              <Link href="/community" className={styles.navLink}>
-                커뮤니티
-              </Link>
+              <Link href="/community" className={styles.navLink}>{t.main.community.title}</Link>
             </li>
           </ul>
           <div className={styles.navActions}>
@@ -362,15 +269,15 @@ export default function MainPage() {
                 <>
                   {isAdmin && (
                     <>
-                      <span className={styles.adminBadge}>관리자</span>
-                      <Link href="/admin" className={styles.logoutBtn}>패널</Link>
+                      <span className={styles.adminBadge}>{t.main.admin}</span>
+                      <Link href="/admin" className={styles.logoutBtn}>{t.main.adminPanel}</Link>
                     </>
                   )}
                   <div className={styles.levelWrapper}>
                     <span className={styles.levelIcon}>{getLevelIcon(level)}</span>
                     <div className={styles.levelTooltip}>
                       {Object.entries(LEVEL_NAMES).map(([lv, name]) => {
-                        const lvNum = Number(lv)
+                        const lvNum = Number(lv);
                         return (
                           <div key={lv} className={`${styles.levelRow} ${lvNum === level ? styles.levelRowActive : ''}`}>
                             <span className={styles.levelRowIcon}>{LEVEL_ICONS[lvNum]}</span>
@@ -382,7 +289,7 @@ export default function MainPage() {
                                 : null
                             }
                           </div>
-                        )
+                        );
                       })}
                     </div>
                   </div>
@@ -395,10 +302,10 @@ export default function MainPage() {
                       </span>
                     )}
                   </Link>
-                  <button className={styles.logoutBtn} onClick={handleLogout}>로그아웃</button>
+                  <button className={styles.logoutBtn} onClick={handleLogout}>{t.main.logout}</button>
                 </>
               ) : (
-                <Link href="/login" className={styles.loginBtn}>로그인</Link>
+                <Link href="/login" className={styles.loginBtn}>{t.main.login}</Link>
               )
             )}
           </div>
@@ -408,8 +315,8 @@ export default function MainPage() {
       <main className={styles.main}>
         <div className={styles.contentContainer}>
           <div className={styles.sectionHeader}>
-            <h1 className={styles.categoryTitle}>{active}</h1>
-            <p className={styles.sectionCount}>{visibleCards.length}개의 테스트</p>
+            <h1 className={styles.categoryTitle}>{getCatLabel(active)}</h1>
+            <p className={styles.sectionCount}>{t.main.testCount.replace('{n}', String(visibleCards.length))}</p>
           </div>
           <div className={styles.sortBar}>
             {SORT_OPTIONS.map((opt) => (
@@ -439,22 +346,17 @@ export default function MainPage() {
               {pagedCards.map((card) => {
                 const testId = card.href.slice(1);
                 const likeData = likes[testId];
+                const cardInfo = t.main.cards[card.cardKey];
                 return (
                   <div key={card.href} className={styles.cardWrapper}>
                     <Link href={card.href} className={styles.projectCard} onClick={() => incrementView(testId)}>
-                      <Image
-                        src={card.img}
-                        alt={card.alt}
-                        width={420}
-                        height={560}
-                        className={styles.cardImage}
-                      />
+                      <Image src={card.img} alt={cardInfo.title} width={420} height={560} className={styles.cardImage} />
                       <div className={styles.cardOverlay}>
-                        <span className={styles.cardTag}>{card.tag}</span>
+                        <span className={styles.cardTag}>{getTagLabel(card.tag)}</span>
                         <div className={styles.cardBottom}>
-                          <p className={styles.cardDesc}>{card.desc}</p>
-                          <h2 className={styles.cardTitle}>{card.title}</h2>
-                          <span className={styles.cardCta}>시작하기 →</span>
+                          <p className={styles.cardDesc}>{cardInfo.desc}</p>
+                          <h2 className={styles.cardTitle}>{cardInfo.title}</h2>
+                          <span className={styles.cardCta}>{t.main.startCta}</span>
                         </div>
                       </div>
                     </Link>
@@ -465,15 +367,9 @@ export default function MainPage() {
                       >
                         <svg className={styles.likeHeart} viewBox="0 0 24 24" width="20" height="20">
                           {likeData?.liked ? (
-                            <path
-                              d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-                              fill="#f43f5e"
-                            />
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#f43f5e" />
                           ) : (
-                            <path
-                              d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z"
-                              fill="#6e6e73"
-                            />
+                            <path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z" fill="#6e6e73" />
                           )}
                         </svg>
                         <span className={styles.likeCount}>{likeData?.count ?? 0}</span>
@@ -518,11 +414,10 @@ export default function MainPage() {
           )}
         </div>
 
-        {/* Community Section */}
         <div className={styles.communitySection}>
           <div className={styles.communitySectionHeader}>
-            <h2 className={styles.communitySectionTitle}>커뮤니티</h2>
-            <Link href="/community" className={styles.communityMoreBtn}>더보기 →</Link>
+            <h2 className={styles.communitySectionTitle}>{t.main.community.title}</h2>
+            <Link href="/community" className={styles.communityMoreBtn}>{t.main.community.more}</Link>
           </div>
 
           <div className={styles.communityBoardTabs}>
@@ -532,24 +427,26 @@ export default function MainPage() {
                 className={`${styles.communityBoardTab} ${communityBoard === board ? styles.communityBoardTabActive : ""}`}
                 onClick={() => setCommunityBoard(board)}
               >
-                {board}
+                {getBoardLabel(board)}
               </button>
             ))}
             <button
               className={styles.communityWriteBtn}
               onClick={() => user ? router.push("/community/write") : router.push("/login")}
             >
-              글쓰기
+              {t.main.community.write}
             </button>
           </div>
 
           {!user ? (
             <div className={styles.communityLoginNote}>
-              <span>로그인하면 커뮤니티를 이용할 수 있습니다.</span>
-              <button className={styles.communityLoginBtn} onClick={() => router.push("/login")}>로그인</button>
+              <span>{t.main.community.loginNote}</span>
+              <button className={styles.communityLoginBtn} onClick={() => router.push("/login")}>
+                {t.main.community.loginBtn}
+              </button>
             </div>
           ) : communityPosts.length === 0 ? (
-            <div className={styles.communityEmpty}>게시글이 없습니다.</div>
+            <div className={styles.communityEmpty}>{t.main.community.empty}</div>
           ) : (
             <div className={styles.communityPostList}>
               {communityPosts.map((post) => (

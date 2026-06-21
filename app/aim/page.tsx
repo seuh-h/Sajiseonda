@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
+import { useTranslation } from "@/hooks/useTranslation";
 import { recordSuccess } from "@/lib/levelSystem";
 import styles from "./aim.module.css";
 import ShareResultButtons from "@/components/ShareResultButtons";
@@ -22,7 +23,8 @@ const shuffleArray = (array: number[]) => {
 
 export default function AimTest() {
   const router = useRouter();
-  const { user } = useAuth()
+  const { user } = useAuth();
+  const { t } = useTranslation();
   const [screen, setScreen] = useState<Screen>("start");
   const [numbers, setNumbers] = useState<number[]>([]);
   const [currentTarget, setCurrentTarget] = useState(1);
@@ -46,7 +48,6 @@ export default function AimTest() {
     setCurrentTarget(1);
     setElapsedTime(0);
     setScreen("game");
-
     startTimeRef.current = Date.now();
     timerRef.current = requestAnimationFrame(updateTimer);
   };
@@ -54,13 +55,11 @@ export default function AimTest() {
   const handleNumberClick = (num: number) => {
     if (num === currentTarget) {
       if (currentTarget === TOTAL_NUMBERS) {
-        const endTime = Date.now();
-        const totalTime = endTime - startTimeRef.current;
+        const totalTime = Date.now() - startTimeRef.current;
         if (timerRef.current) cancelAnimationFrame(timerRef.current);
-
         setFinalTime(totalTime);
         setScreen("result");
-        if (user) recordSuccess(user.id, 'aim')
+        if (user) recordSuccess(user.id, 'aim');
       } else {
         setCurrentTarget((prev) => prev + 1);
       }
@@ -80,15 +79,13 @@ export default function AimTest() {
     };
   }, []);
 
-  const formatTime = (ms: number) => {
-    return (ms / 1000).toFixed(2);
-  };
+  const formatTime = (ms: number) => (ms / 1000).toFixed(2);
 
   const getRank = (ms: number) => {
-    if (ms < 10000) return { rank: "S", title: "동체시력 마스터 (상위 1%)" };
-    if (ms < 15000) return { rank: "A", title: "프로게이머 지망생 (상위 10%)" };
-    if (ms < 20000) return { rank: "B", title: "일반인 평균" };
-    return { rank: "C", title: "나무늘보 (조금 더 분발하세요!)" };
+    if (ms < 10000) return { rank: "S", title: t.aim.ranks.s };
+    if (ms < 15000) return { rank: "A", title: t.aim.ranks.a };
+    if (ms < 20000) return { rank: "B", title: t.aim.ranks.b };
+    return { rank: "C", title: t.aim.ranks.c };
   };
 
   const rankInfo = getRank(finalTime);
@@ -98,29 +95,25 @@ export default function AimTest() {
       {screen === "start" && (
         <div className={styles.startScreen}>
           <div className={styles.startEmoji}>🎯</div>
-          <h1 className={styles.startTitle}>에임 & 동체시력 테스트</h1>
-          <p className={styles.startDesc}>1부터 20까지의 숫자를 순서대로 최대한 빨리 클릭하세요!</p>
-          <button className={styles.startBtn} onClick={startGame}>
-            게임 시작
-          </button>
+          <h1 className={styles.startTitle}>{t.aim.title}</h1>
+          <p className={styles.startDesc}>{t.aim.desc}</p>
+          <button className={styles.startBtn} onClick={startGame}>{t.aim.startBtn}</button>
         </div>
       )}
 
       {screen === "game" && (
         <div className={styles.gameScreen}>
           <button className={styles.backToMainLink} onClick={() => router.push("/main")}>
-            ← 포기하고 나가기
+            {t.aim.quit}
           </button>
-
           <div className={styles.header}>
             <div className={styles.targetInfo}>
-              다음 숫자: <span>{currentTarget}</span>
+              {t.aim.nextNumber.replace('{n}', String(currentTarget))}
             </div>
             <div className={styles.timerBox}>
-              {formatTime(elapsedTime)} 초
+              {t.aim.seconds.replace('{t}', formatTime(elapsedTime))}
             </div>
           </div>
-
           <div className={styles.grid}>
             {numbers.map((num) => (
               <button
@@ -142,23 +135,20 @@ export default function AimTest() {
             <div className={styles.resultEmoji}>🏆</div>
             <div className={styles.resultRank}>{rankInfo.rank} Class</div>
             <h2 className={styles.resultTitle}>{rankInfo.title}</h2>
-
             <div className={styles.scoreBoard}>
-              <h3>최종 기록</h3>
-              <div className={styles.finalTime}>{formatTime(finalTime)} 초</div>
+              <h3>{t.aim.finalRecord}</h3>
+              <div className={styles.finalTime}>
+                {t.aim.seconds.replace('{t}', formatTime(finalTime))}
+              </div>
             </div>
           </div>
           <ShareResultButtons
             resultRef={resultRef}
-            title={`동체시력 테스트: ${rankInfo.rank} Class`}
-            description={`${rankInfo.title} | ${formatTime(finalTime)}초 달성`}
+            title={t.aim.shareTitle.replace('{rank}', rankInfo.rank)}
+            description={t.aim.shareDesc.replace('{title}', rankInfo.title).replace('{time}', formatTime(finalTime))}
           />
-          <button className={styles.restartBtn} onClick={resetGame}>
-            다시 도전하기
-          </button>
-          <button className={styles.mainBtn} onClick={() => router.push("/main")}>
-            메인으로 돌아가기
-          </button>
+          <button className={styles.restartBtn} onClick={resetGame}>{t.common.retry}</button>
+          <button className={styles.mainBtn} onClick={() => router.push("/main")}>{t.common.backToMain}</button>
         </div>
       )}
     </div>

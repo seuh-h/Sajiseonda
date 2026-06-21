@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import AutoLogoutProvider from "@/components/AutoLogoutProvider";
 import Footer from "@/components/Footer";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,7 +30,9 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
-        <AutoLogoutProvider>{children}</AutoLogoutProvider>
+        <LanguageProvider>
+          <AutoLogoutProvider>{children}</AutoLogoutProvider>
+        </LanguageProvider>
         <Footer />
       </body>
     </html>

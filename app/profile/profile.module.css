@@ -196,6 +196,40 @@
   margin: 0;
 }
 
+/* ── Language ── */
+.langGrid {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.langBtn {
+  flex: 1;
+  min-width: 100px;
+  padding: 16px 12px;
+  border-radius: 14px;
+  border: 2px solid #d1d1d6;
+  background: white;
+  font-size: 15px;
+  font-weight: 600;
+  color: #6e6e73;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+  text-align: center;
+}
+
+.langBtn:hover {
+  border-color: #86868b;
+  color: #1d1d1f;
+}
+
+.langBtnActive {
+  border-color: #1d1d1f;
+  background: #1d1d1f;
+  color: white;
+}
+
 /* ── Save Button ── */
 .saveBtn {
   padding: 12px;

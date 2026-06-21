@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
+import { useTranslation } from "@/hooks/useTranslation";
 import { recordSuccess } from "@/lib/levelSystem";
 import styles from "./shooting.module.css";
 import ShareResultButtons from "@/components/ShareResultButtons";
@@ -27,7 +28,8 @@ const SETTINGS = {
 
 export default function ShootingTest() {
   const router = useRouter();
-  const { user } = useAuth()
+  const { user } = useAuth();
+  const { t } = useTranslation();
   const [screen, setScreen] = useState<Screen>("start");
   const [difficulty, setDifficulty] = useState<Difficulty>("normal");
   const [score, setScore] = useState(0);
@@ -84,14 +86,14 @@ export default function ShootingTest() {
     if (spawnTimerRef.current) window.clearTimeout(spawnTimerRef.current);
     setScreen("result");
     setTargets([]);
-    if (user) recordSuccess(user.id, 'shooting')
+    if (user) recordSuccess(user.id, 'shooting');
   }, [user]);
 
   const handleHit = (id: number, e: React.MouseEvent) => {
     e.stopPropagation();
     if (isGameOver.current) return;
 
-    setTargets((prev) => prev.filter((t) => t.id !== id));
+    setTargets((prev) => prev.filter((target) => target.id !== id));
     setScore((prev) => {
       const newScore = prev + 1;
       scoreRef.current = newScore;
@@ -102,12 +104,10 @@ export default function ShootingTest() {
   const handleMiss = (id: number) => {
     if (isGameOver.current) return;
 
-    setTargets((prev) => prev.filter((t) => t.id !== id));
+    setTargets((prev) => prev.filter((target) => target.id !== id));
     setLives((prev) => {
       const nextLives = prev - 1;
-      if (nextLives <= 0) {
-        handleGameOver();
-      }
+      if (nextLives <= 0) handleGameOver();
       return nextLives;
     });
   };
@@ -119,32 +119,37 @@ export default function ShootingTest() {
 
   const getRank = (finalScore: number, diff: Difficulty) => {
     const multiplier = diff === "challenge" ? 2 : diff === "hard" ? 1.5 : diff === "normal" ? 1 : 0.8;
-    const adjustedScore = finalScore * multiplier;
-
-    if (adjustedScore >= 100) return "신급 에임 마스터 (상위 0.1%)";
-    if (adjustedScore >= 60) return "특수부대 정예 스나이퍼 (상위 5%)";
-    if (adjustedScore >= 30) return "사격장 고인물 (상위 20%)";
-    if (adjustedScore >= 15) return "입문용 사수 (일반인 평균)";
-    return "총기 난사범 (침착하게 쏘세요!)";
+    const adjusted = finalScore * multiplier;
+    if (adjusted >= 100) return t.shooting.ranks.god;
+    if (adjusted >= 60)  return t.shooting.ranks.sniper;
+    if (adjusted >= 30)  return t.shooting.ranks.veteran;
+    if (adjusted >= 15)  return t.shooting.ranks.beginner;
+    return t.shooting.ranks.random;
   };
+
+  const diffLabel = (diff: Difficulty) => ({
+    easy: t.common.easy, normal: t.common.normal,
+    hard: t.common.hard, challenge: t.common.challenge,
+  }[diff]);
 
   return (
     <div className={styles.container}>
       {screen === "start" && (
         <div className={styles.startScreen}>
           <div className={styles.startEmoji}>🔫</div>
-          <h1 className={styles.startTitle}>무빙 에임 사격 테스트</h1>
+          <h1 className={styles.startTitle}>{t.shooting.title}</h1>
           <p className={styles.startDesc}>
-            떨어지는 표적을 쏴서 맞추세요!<br />
-            진행될수록 떨어지는 속도가 점점 빨라집니다.
+            {t.shooting.desc.split('\n').map((line, i) => (
+              <span key={i}>{line}{i === 0 && <br />}</span>
+            ))}
           </p>
-          <h2 className={styles.diffTitle}>난이도를 선택하세요 (표적 크기)</h2>
+          <h2 className={styles.diffTitle}>{t.shooting.diffTitle}</h2>
           <div className={styles.difficultyContainer}>
-            <button className={styles.btn} onClick={() => startGame("easy")}>쉬움</button>
-            <button className={styles.btn} onClick={() => startGame("normal")}>보통</button>
-            <button className={styles.btn} onClick={() => startGame("hard")}>어려움</button>
+            <button className={styles.btn} onClick={() => startGame("easy")}>{t.common.easy}</button>
+            <button className={styles.btn} onClick={() => startGame("normal")}>{t.common.normal}</button>
+            <button className={styles.btn} onClick={() => startGame("hard")}>{t.common.hard}</button>
             <button className={`${styles.btn} ${styles.challengeBtn}`} onClick={() => startGame("challenge")}>
-              챌린지
+              {t.common.challenge}
             </button>
           </div>
         </div>
@@ -154,14 +159,12 @@ export default function ShootingTest() {
         <div className={styles.gameScreen}>
           <div className={styles.hud}>
             <button className={styles.backBtn} onClick={() => { isGameOver.current = true; resetGame(); }}>
-              ← 포기
+              {t.common.quit}
             </button>
-            <div className={styles.scoreBox}>점수: {score}</div>
+            <div className={styles.scoreBox}>{t.shooting.scoreLabel.replace('{score}', String(score))}</div>
             <div className={styles.livesBox}>
               {Array.from({ length: 3 }).map((_, i) => (
-                <span key={i} className={i < lives ? styles.heartAlive : styles.heartDead}>
-                  ❤️
-                </span>
+                <span key={i} className={i < lives ? styles.heartAlive : styles.heartDead}>❤️</span>
               ))}
             </div>
           </div>
@@ -171,15 +174,13 @@ export default function ShootingTest() {
               <div
                 key={target.id}
                 className={styles.targetObj}
-                style={
-                  {
-                    left: `${target.x}%`,
-                    width: `${target.size}px`,
-                    height: `${target.size}px`,
-                    animationDuration: `${target.duration}ms`,
-                    "--sway": `${target.sway}vw`,
-                  } as React.CSSProperties
-                }
+                style={{
+                  left: `${target.x}%`,
+                  width: `${target.size}px`,
+                  height: `${target.size}px`,
+                  animationDuration: `${target.duration}ms`,
+                  "--sway": `${target.sway}vw`,
+                } as React.CSSProperties}
                 onAnimationEnd={() => handleMiss(target.id)}
                 onMouseDown={(e) => handleHit(target.id, e)}
               />
@@ -192,24 +193,23 @@ export default function ShootingTest() {
         <div className={styles.resultScreen}>
           <div ref={resultRef} className="resultCard">
             <div className={styles.resultEmoji}>💥</div>
-            <h2 className={styles.resultTitle}>GAME OVER</h2>
-
+            <h2 className={styles.resultTitle}>{t.common.gameOver}</h2>
             <div className={styles.scoreBoard}>
-              <h3>최종 명중 횟수</h3>
-              <div className={styles.finalScore}>{score} 타겟</div>
+              <h3>{t.shooting.finalScoreTitle}</h3>
+              <div className={styles.finalScore}>{score} {t.shooting.finalScoreUnit}</div>
               <div className={styles.rankBadge}>{getRank(score, difficulty)}</div>
               <p style={{ marginTop: "12px", color: "#86868b", fontSize: "14px" }}>
-                플레이 난이도: {difficulty.toUpperCase()}
+                {t.shooting.diffLabel.replace('{diff}', diffLabel(difficulty).toUpperCase())}
               </p>
             </div>
           </div>
           <ShareResultButtons
             resultRef={resultRef}
-            title={`사격 테스트: ${score}타겟 명중`}
-            description={`${getRank(score, difficulty)} | 난이도: ${difficulty.toUpperCase()}`}
+            title={t.shooting.shareTitle.replace('{score}', String(score))}
+            description={`${getRank(score, difficulty)} | ${t.shooting.diffLabel.replace('{diff}', diffLabel(difficulty).toUpperCase())}`}
           />
-          <button className={styles.restartBtn} onClick={resetGame}>다시 도전하기</button>
-          <button className={styles.mainBtn} onClick={() => router.push("/main")}>메인으로 돌아가기</button>
+          <button className={styles.restartBtn} onClick={resetGame}>{t.common.retry}</button>
+          <button className={styles.mainBtn} onClick={() => router.push("/main")}>{t.common.backToMain}</button>
         </div>
       )}
     </div>
